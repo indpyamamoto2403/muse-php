@@ -25,7 +25,7 @@
   
   <script setup lang="ts">
   import { ref } from 'vue';
-  //tes
+  //ts
   const searchQuery = ref('');
   
   const emit = defineEmits(['search', 'clear']);
