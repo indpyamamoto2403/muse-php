@@ -23,6 +23,8 @@ jobs:
 
     - name: Build project
       run: npm run build
+      continue-on-error: false  # ← ここにtrueがあると失敗しても次へ行く
+
 
     - name: notify-slack
       run: |
