@@ -24,7 +24,3 @@ jobs:
     - name: Build project
       run: npm run build
 
-    - name: Send Slack notification
-      uses: 8398a7/action-slack@v3
-      status: always
-      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
