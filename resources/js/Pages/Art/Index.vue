@@ -10,7 +10,6 @@ const props = defineProps<{
   arts: Art[];
 }>();
 
-// 検索クエリを管理するリアクティブな状態
 const searchQuery = ref('');
 
 const filteredArts = computed(() => {
