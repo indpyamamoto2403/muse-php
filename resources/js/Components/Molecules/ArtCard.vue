@@ -14,4 +14,3 @@ const props = defineProps<{
   imageUrl: string;
 }>();
 </script>
-</script>
