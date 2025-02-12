@@ -9,6 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 const form = useForm({
     name: '',
     email: '',
+    role: "company",
     password: '',
     password_confirmation: '',
 });
@@ -90,6 +91,19 @@ const submit = () => {
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="role" value="Role" />
+                <select
+                class="mt-1 block w-full rounded-md"
+                v-model="form.role"
+                required
+                >
+                    <option value="" selected disabled>どちらかを選択してください</option>
+                    <option value="company">企業</option>
+                    <option value="artist">芸術家</option>
+                </select>
             </div>
 
             <div class="mt-4 flex items-center justify-end">

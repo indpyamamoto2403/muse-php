@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Notify Slack
-        if: always()  # ジョブの成否にかかわらず実行する
+        if: always()
         env:
           JOB_STATUS: ${{ job.status }}
         run: |
