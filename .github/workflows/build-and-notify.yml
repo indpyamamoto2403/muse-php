@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: '14'
 
-
+      - name: Install dependencies
+        run: npm install
 
       - name: Build project
         run: npm run build
-        # continue-on-error はデフォルトで false のため、特に指定する必要はありません
 
       - name: Notify Slack
         if: always()  # ここでジョブの成否にかかわらず実行する
