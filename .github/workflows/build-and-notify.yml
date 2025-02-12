@@ -10,24 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build project
-      run: npm run build
-      continue-on-error: false  # ← ここにtrueがあると失敗しても次へ行く
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
 
-    - name: notify-slack
-      run: |
-        curl -X POST -H 'Content-type: application/json' \
-          --data "{\"text\": \"Build Success: Commit Message - ${{ github.event.head_commit.message }}\"}" \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Build project
+        run: npm run build
+        # continue-on-error はデフォルトで false のため、特に指定する必要はありません
+
+      - name: Notify Slack
+        if: always()  # ここでジョブの成否にかかわらず実行する
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            MESSAGE="Build Success: Commit Message - ${{ github.event.head_commit.message }}"
+          else
+            MESSAGE="Build Failed: Commit Message - ${{ github.event.head_commit.message }}"
+          fi
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\": \"${MESSAGE}\"}" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
