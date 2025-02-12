@@ -1,0 +1,30 @@
+name: Build and Notify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      run: npm run build
+
+    - name: Send Slack notification
+      uses: 8398a7/action-slack@v3
+      status: always
+      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
