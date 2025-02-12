@@ -8,10 +8,10 @@
 
 <script setup lang="ts">
 import ArtImage from '@/Components/Atoms/ArtImage.vue';
-
 const props = defineProps<{
   title: string;
   description: string;
   imageUrl: string;
 }>();
+</script>
 </script>
