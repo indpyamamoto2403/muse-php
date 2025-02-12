@@ -28,4 +28,6 @@ jobs:
 
     - name: notify-slack
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Build Success"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\": \"Build Success: Commit Message - ${{ github.event.head_commit.message }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
