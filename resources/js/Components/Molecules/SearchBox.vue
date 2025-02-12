@@ -25,7 +25,7 @@
   
   <script setup lang="ts">
   import { ref } from 'vue';
-  //ts
+
   const searchQuery = ref('');
   
   const emit = defineEmits(['search', 'clear']);
@@ -38,5 +38,5 @@ const handleClear = () => {
     searchQuery.value = '';
     emit('clear');
   };
-
+  
   </script>
