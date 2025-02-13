@@ -6,9 +6,7 @@ import { Message } from '@/Types/Chat';
 import { getToLocaleTimeString } from '@/Functions/TimeStamp';
 
 const messages = ref<Message[]>([
-  { id: 1, text: 'こんにちは！あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？', sender: 'other', timestamp: '13:00' },
-  { id:2, text: '最近は「シン・エヴァンゲリオン劇場版」を見ました。', sender:'user', timestamp:'13:22'},
-  { id:3, text: '「シン・エヴァンゲリオン劇場版」は、監督の庵野秀明が手掛ける「新世紀エヴァンゲリオン」シリーズの完結編ですね。', sender:'other', timestamp:'13:23'},
+  { id: 1, text: 'こんにちは！あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？', sender: 'other', timestamp: getToLocaleTimeString() },
 ]);
 
 const newMessage = ref('');
@@ -39,6 +37,8 @@ const sendMessage = async () => {
       timestamp: getToLocaleTimeString(),
     };
     messages.value.push(aiMessage);
+
+    console.log(messages.value);
   }
 };
 // 最新メッセージに自動スクロール
