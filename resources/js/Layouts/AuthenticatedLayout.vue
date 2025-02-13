@@ -191,7 +191,7 @@ const menus = getMenus(role);
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="min-h-screen">
                 <slot />
             </main>
         </div>

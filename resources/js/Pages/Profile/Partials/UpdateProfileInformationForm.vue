@@ -19,6 +19,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    role: user.role,
 });
 </script>
 
@@ -67,6 +68,22 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div>
+                <InputLabel for="role" value="Role" />
+
+                <select
+                    id="role"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    v-model="form.role"
+                    required
+                >
+                    <option value="company">企業</option>
+                    <option value="artist">芸術家</option>
+                </select>
+
+                <InputError class="mt-2" :message="form.errors.role" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

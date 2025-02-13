@@ -10,12 +10,12 @@ export const getMenus = (role: Role): Menu[] => {
     company: [
       { name: 'Dashboard', route: route('dashboard') },
       { name: 'ArtList', route: route('art.index') },
-      { name: 'Profile', route: 'profile' },
+      { name: 'Profile', route: route('profile.edit') },
     ],
     artist: [
       { name: 'Dashboard', route: route('dashboard') },
       { name: 'Art', route: route('art.register') },
-      { name: 'Profile', route: 'profile' },
+      { name: 'Profile', route: route('profile.edit') },
     ]
   };
 
