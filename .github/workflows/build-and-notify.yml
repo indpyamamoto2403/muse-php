@@ -42,16 +42,17 @@ jobs:
             --data "{\"text\": \"${MESSAGE}\"}" \
             ${{ secrets.SLACK_WEBHOOK_URL }}
   deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      if: ${{ needs.build.result == 'success' }}
-      steps:
-        - name: Start RDP Tunnel via ngrok
-          uses: appleboy/ssh-action@v0.1.5
-          with:
-            host: ${{ secrets.DEPLOY_HOST }}
-            username: ${{ secrets.DEPLOY_USER }}
-            key: ${{ secrets.DEPLOY_KEY }}
-            script: |
-              cd C:\ngrok
-              .\ngrok.exe tcp 3389
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ needs.build.result == 'success' }}
+    steps:
+      - name: Deploy to remote server via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            cd Desktop
+            ./pull.bat
+            ./build.bat
