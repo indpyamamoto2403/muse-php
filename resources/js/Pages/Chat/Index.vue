@@ -117,7 +117,7 @@ watch(
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #2d3748; /* bg-gray-800 */
+  background-color: #2d3748; /* bg-gray-800*/
 }
 
 ::-webkit-scrollbar-thumb {
