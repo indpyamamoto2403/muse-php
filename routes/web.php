@@ -19,13 +19,27 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
+
+    //共通属性
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/art',[ArtController::class,'index'])->name('art.index');
-    Route::get('/art/register',[ArtController::class,'register'])->name('art.register');
-    Route::post('/art/register',[ArtController::class,'create'])->name('art.create');
+
+
+    //ロールが企業の場合
+    Route::middleware('company')->group(function () {
+        Route::get('/art',[ArtController::class,'index'])->name('art.index');
+    });
+
+    //ロールが芸術家の場合
+    Route::middleware('artist')->group(function () {
+        Route::get('/art/register',[ArtController::class,'register'])->name('art.register');
+        Route::post('/art/register',[ArtController::class,'create'])->name('art.create');
+    });
+
 });
+
 
 require __DIR__.'/auth.php';

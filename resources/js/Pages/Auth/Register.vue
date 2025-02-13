@@ -9,7 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 const form = useForm({
     name: '',
     email: '',
-    role: "company",
+    role: "",
     password: '',
     password_confirmation: '',
 });
