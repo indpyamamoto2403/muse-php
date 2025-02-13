@@ -14,7 +14,6 @@ class ArtService
      */
     public function __construct()
     {
-        // ご要望通り serviceコンストラクタ内で new
         $this->artRepository = new ArtRepository();
     }
 
