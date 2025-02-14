@@ -11,6 +11,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'Dashboard', route: route('dashboard') },
       { name: 'ArtList', route: route('art.index') },
       { name: 'Profile', route: route('profile.edit') },
+      { name: 'Chat', route: route('chat.index') },
     ],
     artist: [
       { name: 'Dashboard', route: route('dashboard') },

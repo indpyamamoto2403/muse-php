@@ -32,8 +32,10 @@ Route::middleware('auth')->group(function () {
 
     //ロールが企業の場合
     Route::middleware('company')->group(function () {
+
         Route::get('/art',[ArtController::class,'index'])->name('art.index');
         Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        
 
         // チャットAPI実装機能
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');
