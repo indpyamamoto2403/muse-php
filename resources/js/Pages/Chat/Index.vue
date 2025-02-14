@@ -28,8 +28,10 @@ const sendMessage = async () => {
     // 入力欄をクリア
     newMessage.value = '';
 
+    const conversationHistory:string = JSON.stringify(messages.value);
+    console.log(conversationHistory);
     // 生成AIからの応答を取得（prompt はすでに変数に格納済み）
-    const aiResponseText = await getAIResponse(prompt);
+    const aiResponseText = await getAIResponse(prompt, conversationHistory);
     const aiMessage: Message = {
       id: messages.value.length + 1,
       text: aiResponseText,
@@ -63,7 +65,7 @@ watch(
       <!-- メッセージ表示エリア -->
       <div
         ref="messageContainer"
-        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-800 mb-28 rounded-2xl shadow-lg"
+        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-800 mb-28 max-h-[700px] rounded-2xl shadow-lg"
       >
         <div
           v-for="message in messages"

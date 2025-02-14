@@ -17,7 +17,8 @@ class ChatAPIController extends Controller
 
     public function send(Request $request)
     {
-        $message = $this->chatService->response($request->message);
+        $message = $this->chatService->response($request->message, $request->conversationHistory);
+        Log::debug($request->conversationHistory);
         return response()->json(['message' => $message]);
     }
 }

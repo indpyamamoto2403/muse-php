@@ -15,7 +15,7 @@ class ChatService
     {
         $this->client = new OpenAIAPIClient();
     }
-    public function response(string $message)
+    public function response(string $message, string $conversationHistory)
     {
         $prompt = <<<EOF
 
@@ -24,9 +24,13 @@ class ChatService
         あなたはユーザーとの対話を通じて、芸術作品の趣味嗜好について探ろうとしています。
         ユーザーが投稿したメッセージに対して、適切な返答と、それに続く質問を返してください。
 
-        例：最近見た映画はいつ？　、　好きな色は何色？など
-        
-        また、テンポよく返せるよう、３０文字程度での返答を心がけてください。
+        ところで、あなたはこれまでにユーザーと会話しました。その会話の内容は以下の通りです。
+
+        ###会話履歴
+        $conversationHistory
+
+        ###注意
+        テンポよく返せるよう、６０文字程度での返答を心がけてください。
 
         ###質問
         $message        
