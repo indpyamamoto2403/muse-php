@@ -13,7 +13,7 @@ const messages = ref<Message[]>([
 ]);
 const newMessage = ref('');
 const interactionCount = ref(0);
-const maxCount:number = 2; // トライアル回数
+const maxCount:number = 6; // トライアル回数
 const showCompletionModal = ref(false);
 
 

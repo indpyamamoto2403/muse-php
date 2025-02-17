@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\DomainLogic\Prompts\Prompts;
 
-class OpenAIAPIClient
+class OpenAIAPIClient implements IOpenAIAPIClient
 {
     protected $openAIAPIKey;
     protected $openAIEndpoint;

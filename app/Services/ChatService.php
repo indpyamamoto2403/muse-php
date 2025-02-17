@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\Utils\OpenAIAPIClient;
+use App\Utils\IOpenAIAPIClient;
 
 class ChatService
 {
@@ -11,9 +11,9 @@ class ChatService
      * @return string $answer
      */
     private $client;
-    public function __construct()
+    public function __construct(IOpenAIAPIClient $client)
     {
-        $this->client = new OpenAIAPIClient();
+        $this->client = $client;
     }
     public function response(string $message, string $conversationHistory)
     {
