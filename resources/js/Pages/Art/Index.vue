@@ -19,9 +19,7 @@ const filteredArts = computed(() => {
   return props.arts.filter(art => {
     const title = art.title?.toLowerCase() || ''; // nullやundefinedを空文字列にフォールバック
 
-    return (
-      title.includes(searchQuery.value.toLowerCase())
-    );
+    return title.includes(searchQuery.value.toLowerCase());
   });
 });
 
@@ -29,9 +27,8 @@ const filteredArts = computed(() => {
  * 検索ボックスをクリアするハンドラー
  */
 const handleClear = () => {
-    searchQuery.value = '';
+  searchQuery.value = '';
 };
-
 
 /**
  * 検索ボックスから検索クエリを受け取るハンドラー
@@ -43,12 +40,15 @@ const handleSearch = (query: string) => {
 
 <template>
   <AuthenticatedLayout>
-    <div class="p-6 bg-sky-950 min-h-screen">
-      <h1 class="text-4xl font-extrabold mb-6 text-center text-gray-200">Art Gallery</h1>
+    <template #header>
+      Art Gallery
+    </template>
+    <!-- コンテナでレイアウト内に収める -->
+    <div class="container mx-auto p-4">
       <!-- 検索ボックス -->
       <SearchBox 
-      @search="handleSearch"
-      @clear="handleClear"
+        @search="handleSearch"
+        @clear="handleClear"
       />
       <!-- フィルタリングされたアートを表示 -->
       <ArtGallery :arts="filteredArts" />

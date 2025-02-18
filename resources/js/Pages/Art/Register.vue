@@ -114,8 +114,10 @@ const registerArt = async () => {
 
 <template>
   <AuthenticatedLayout>
+    <template #header>
+      Register Art
+    </template>
     <div class="max-w-2xl mx-auto p-4 bg-sky-950">
-      <h1 class="text-xl font-bold mb-4 text-white">Register a New Art</h1>
 
       <!-- フォーム本体 -->
       <form @submit.prevent="registerArt" class="bg-slate-200 p-6 rounded shadow">

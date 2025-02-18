@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick, watch } from 'vue';
+import { ref, computed, nextTick, watch, onMounted } from 'vue';
 import Layout from '@/Layouts/AuthenticatedLayout.vue';
 import { getAIResponse } from '@/Pages/Chat/generativeAIResponder';
 import { Message } from '@/Types/Chat';
@@ -11,6 +11,7 @@ import CompletionModal from '@/Components/Organisms/Chat/CompletionModal.vue';
 const messages = ref<Message[]>([
   { id: 1, text: 'こんにちは！あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？', sender: 'other', timestamp: getToLocaleTimeString() },
 ]);
+
 const newMessage = ref('');
 const interactionCount = ref(0);
 const maxCount:number = 6; // トライアル回数
@@ -66,23 +67,41 @@ const closeModal = () => {
   showCompletionModal.value = false;
   // 必要に応じて追加処理（例: チャットリセット）
 };
+
+//音声読み上げパート
+// コンポーネントマウント時に読み上げる
+onMounted(() => {
+  const message = "これはFirefoxから読み上げています。あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(utterance);
+  } else {
+    console.warn("このブラウザはテキスト読み上げ機能をサポートしていません。");
+  }
+});
+
+
 </script>
 
 <template>
   <Layout>
+    <template #header>
+      チャット with AI
+    </template>
     <div class="container mx-auto h-screen flex flex-col relative">
-      <h1 class="text-2xl font-bold p-4 border-b border-gray-700 text-white">Chat INDP</h1>
-      
       <ConversationView :messages="messages" />
     </div>
 
     <!-- メッセージ送信フォーム -->
-    <SendingForm 
+
+
+    <div class="w-full bg-red-300">
+      <SendingForm 
       v-model="newMessage" 
       @sendMessage="sendMessage"
       :disabled="showCompletionModal"
     />
-
+    </div>
     <!-- 完了モーダル -->
     <CompletionModal 
       v-if="showCompletionModal" 
