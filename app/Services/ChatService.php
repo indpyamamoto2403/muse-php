@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Utils\IOpenAIAPIClient;
+use App\Adapters\Score\IScoringAdapter;
 
 class ChatService
 {
@@ -11,10 +12,14 @@ class ChatService
      * @return string $answer
      */
     private $client;
-    public function __construct(IOpenAIAPIClient $client)
+    private $scoringAdapter;
+
+    public function __construct(IOpenAIAPIClient $client, IScoringAdapter $scoringAdapter)
     {
         $this->client = $client;
+        $this->scoringAdapter = $scoringAdapter;
     }
+
     public function response(string $message, string $conversationHistory)
     {
         $prompt = <<<EOF
@@ -39,5 +44,12 @@ class ChatService
 
         $answer = $this->client->fetchAnswer($prompt);
         return $answer;
+    }
+
+    public function getScore(string $conversationHistory)
+    {
+        $scoreString = $this->scoringAdapter->getScore($conversationHistory);
+        $decodedScoreString = json_decode($scoreString, true);
+        return $decodedScoreString;
     }
 }

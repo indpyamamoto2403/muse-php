@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick, watch, onMounted } from 'vue';
 import Layout from '@/Layouts/AuthenticatedLayout.vue';
-import { getAIResponse } from '@/Pages/Chat/generativeAIResponder';
+import { getAIResponse, getScore } from '@/Pages/Chat/generativeAIResponder';
 import { Message } from '@/Types/Chat';
 import { getToLocaleTimeString } from '@/Functions/TimeStamp';
 import SendingForm from '@/Components/Organisms/Chat/SendingForm.vue';
@@ -9,19 +9,15 @@ import ConversationView from '@/Components/Organisms/Chat/ConversationView.vue';
 import CompletionModal from '@/Components/Organisms/Chat/CompletionModal.vue';
 
 const messages = ref<Message[]>([
-  { id: 1, text: 'こんにちは！あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？', sender: 'other', timestamp: getToLocaleTimeString() },
+  { id: 1, text: 'こんにちは！あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？', sender: 'system', timestamp: getToLocaleTimeString() },
 ]);
 
 const newMessage = ref('');
 const interactionCount = ref(0);
-const maxCount:number = 6; // トライアル回数
+const maxCount:number = 2; // トライアル回数
 const showCompletionModal = ref(false);
 
-
-
-// やり取り回数を計算
 const checkInteractionLimit = () => {
-  // ユーザーメッセージ数をカウント（初期メッセージを考慮）
   const userMessagesCount = messages.value.filter(m => m.sender === 'user').length;
   
   if (userMessagesCount >= maxCount) {
@@ -53,7 +49,7 @@ const sendMessage = async () => {
   const aiMessage: Message = {
     id: messages.value.length + 1,
     text: aiResponseText,
-    sender: 'other',
+    sender: 'system',
     timestamp: getToLocaleTimeString(),
   };
   messages.value.push(aiMessage);
@@ -63,12 +59,18 @@ const sendMessage = async () => {
 };
 
 // モーダル閉じ処理
-const closeModal = () => {
+const agree = () => {
   showCompletionModal.value = false;
-  // 必要に応じて追加処理（例: チャットリセット）
+  console.log("承諾されました");
+  console.log("会話履歴:", messages.value);
+  getScore(JSON.stringify(messages.value));
 };
 
-//音声読み上げパート
+const disagree = () => {
+  showCompletionModal.value = false;
+  console.log("キャンセルされました");
+};
+
 // コンポーネントマウント時に読み上げる
 onMounted(() => {
   const message = "これはFirefoxから読み上げています。あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
@@ -79,8 +81,6 @@ onMounted(() => {
     console.warn("このブラウザはテキスト読み上げ機能をサポートしていません。");
   }
 });
-
-
 </script>
 
 <template>
@@ -105,7 +105,9 @@ onMounted(() => {
     <!-- 完了モーダル -->
     <CompletionModal 
       v-if="showCompletionModal" 
-      @closeModal="closeModal" />
+      @agree="agree"
+      @disagree="disagree"
+      />
   </Layout>
 </template>
 

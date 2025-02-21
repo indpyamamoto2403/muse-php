@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{
-    (e: 'closeModal'): void,
+    (e: 'agree'): void,
+    (e: 'disagree'): void,
 }>();
 </script>
 <template>
@@ -13,10 +14,16 @@ const emit = defineEmits<{
         </p>
         <div class="flex justify-end space-x-4">
           <button
-            @click="emit('closeModal')"
+            @click="emit('agree')"
             class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-white transition-colors"
           >
             承諾する
+          </button>
+          <button
+            @click="emit('disagree')"
+            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-white transition-colors"
+            >
+          キャンセルする
           </button>
         </div>
       </div>

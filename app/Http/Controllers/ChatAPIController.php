@@ -10,15 +10,29 @@ class ChatAPIController extends Controller
 {
     private $chatService;
 
-    public function __construct(ChatService $chatService = new ChatService())
+    public function __construct(ChatService $chatService)
     {
         $this->chatService = $chatService;
     }
-
+    /**
+     * 単体でメッセージを送る場合のAPI
+     * @param Request $request
+     * @return void
+     */
     public function send(Request $request)
     {
         $message = $this->chatService->response($request->message, $request->conversationHistory);
-        Log::debug($request->conversationHistory);
         return response()->json(['message' => $message]);
+    }
+
+    /**
+     * 全体のメッセージを送る場合のAPI
+     * @param Request $request
+     * @return void
+     */
+    public function sendAll(Request $request)
+    {
+        $score = $this->chatService->getScore($request->conversationHistory);
+        return response()->json(['messages' => $score]);
     }
 }

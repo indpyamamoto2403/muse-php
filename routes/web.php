@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
         // チャットAPI実装機能
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');
+        Route::post('/api/chat/all', [ChatAPIController::class, 'sendAll'])->name('chat.sendAll');
 
     });
 
