@@ -59,7 +59,7 @@ const menus = getMenus(role)
         </div>
       </header>
       <!-- ページコンテンツ -->
-      <main class="flex-1 p-4 bg-sky-950">
+      <main class="flex-1 p-4 bg-sky-950 flex justify-center items-center">
         <slot />
       </main>
     </div>

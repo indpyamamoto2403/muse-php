@@ -17,18 +17,19 @@ export async function getAIResponse(_message: string, conversationHistory: strin
     });
   }
 
-export async function getScore(conversationHistory: string): Promise<string> {
+export async function getScore(conversationHistory: string): Promise<void> {
   
-    // 生成AIのAPIエンドポイント
-    const endpoint = '/api/chat/all';
-    const response = await axios.post(endpoint, {
-      conversationHistory: conversationHistory
-    });
+  // 生成AIのAPIエンドポイント
+  const endpoint = '/api/chat/all';
+  const response = await axios.post(endpoint, {
+    conversationHistory: conversationHistory
+  });
 
-    const message = response.data.message;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(message);
-      }, 100);
-    });
+  const message = response.data.message;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+    window.location.href = '/chat/complete';
+    resolve();
+    }, 100);
+  });
   }

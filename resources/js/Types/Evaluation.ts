@@ -36,3 +36,32 @@ export interface Evaluation {
   /** 全体の独自性・創造性 (伝統的～独創的) */
   uniqueness: FiveScale;
 }
+
+export interface Score {
+  /** 作風 (具象性～抽象性) */
+  style: number;
+
+  /** 伝統的～革新的 */
+  tradition_innovation: number;
+
+  /** 内省的～感情的 */
+  introspective_emotional: number;
+
+  /** 色彩感覚 (落ち着き～大胆) */
+  color_sense: number;
+
+  /** 構図 (静的～動的) */
+  composition: number;
+
+  /** 技法 (伝統的～革新的) */
+  technique: number;
+
+  /** テーマ性 (低い～高い) */
+  theme: number;
+
+  /** エネルギー (静的～動的) */
+  energy: number;
+
+  /** 全体の独自性・創造性 (伝統的～独創的) */
+  uniqueness: number;
+}

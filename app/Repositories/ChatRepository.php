@@ -28,4 +28,13 @@ class ChatRepository
         $evaluation->uniqueness = $score['uniqueness'];
         $evaluation->save();
     }
+
+    /**
+     * @return Evaluation
+     */
+    public function getLatest() : Evaluation
+    {
+        $evaluation = Evaluation::where('user_id', Auth::user()->id)->latest()->first();
+        return $evaluation;
+    }
 }

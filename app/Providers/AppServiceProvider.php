@@ -11,6 +11,7 @@ use App\Utils\MockOpenAIAPIClient;
 
 use App\Adapters\Score\IScoringAdapter;
 use App\Adapters\Score\MockScoringAdapter;
+use App\Adapters\Score\ScoringAdapter;
 use App\Adapters\Score\OpenAIScoringAdapter;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(IOpenAIAPIClient::class, MockOpenAIAPIClient::class);
-        $this->app->bind(IScoringAdapter::class, MockScoringAdapter::class);
+        $this->app->bind(IOpenAIAPIClient::class, OpenAIAPIClient::class);
+        $this->app->bind(IScoringAdapter::class, ScoringAdapter::class);
     }
 
     /**

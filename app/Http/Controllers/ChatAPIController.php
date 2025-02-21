@@ -32,8 +32,7 @@ class ChatAPIController extends Controller
      */
     public function sendAll(Request $request)
     {
-        $score = $this->chatService->getScore($request->conversationHistory);
-        $this->chatService->saveScore($score);
+        $score = $this->chatService->processScore($request->conversationHistory);
         return response()->json($score);
     }
 }

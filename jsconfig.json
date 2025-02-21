@@ -4,7 +4,8 @@
         "paths": {
             "@/*": ["resources/js/*"],
             "ziggy-js": ["./vendor/tightenco/ziggy"]
-        }
+        },
+        "types": ["chart.js/auto"]
     },
-    "exclude": ["node_modules", "public"],
+    "exclude": ["node_modules", "public"]
 }

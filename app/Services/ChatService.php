@@ -4,7 +4,10 @@ namespace App\Services;
 use App\Utils\IOpenAIAPIClient;
 use App\Adapters\Score\IScoringAdapter;
 use App\Repositories\ChatRepository;
-
+use App\Exceptions\Score\ScoreStringDecodingFailedException;
+use App\Exceptions\Score\ScoreOutOfRangeException;
+use App\Exceptions\Score\ScoreFailedToSaveException;
+use Illuminate\Support\Facades\Log;
 class ChatService
 {
     /**
@@ -48,26 +51,58 @@ class ChatService
         $answer = $this->client->fetchAnswer($prompt);
         return $answer;
     }
+
     /**
-     * Undocumented function
-     *
-     * @param string $conversationHistory
-     * @return array Score
+     * 会話履歴からスコアを導出し、保存まで行う
      */
-    public function getScore(string $conversationHistory)
+    public function processScore(string $conversationHistory)
+    {
+        $score = $this->getScore($conversationHistory);
+        $this->saveScore($score);
+        return $score;
+    }
+
+    /**
+     * 会話履歴からスコアを導出する
+     */
+    public function getScore(string $conversationHistory) : array
     {
         $scoreString = $this->scoringAdapter->getScore($conversationHistory);
-        $decodedScoreString = json_decode($scoreString, true);
+        Log::debug('Successfully fetched data from API', ['status' => $scoreString]);
+        try{
+            $decodedScoreString = json_decode($scoreString, true);
+        }catch(ScoreStringDecodingFailedException $e){
+            throw new ScoreStringDecodingFailedException();
+        }
+
+        Log::debug('Successfully decoded data from API', ['status' => $decodedScoreString]);
+        //各値が1-5の間に収まっているか検証
+        foreach($decodedScoreString as $key => $value){
+            if($value < 1 || $value > 5){
+                throw new ScoreOutOfRangeException();
+            }
+        }
+
         return $decodedScoreString;
     }
 
     /**
-     * saveScore
-     * @param array $score
-     * @return void
+     * スコアを保存する
      */
     public function saveScore(array $score)
     {
-        $this->repository->save($score);
+        try{
+            $this->repository->save($score);
+        }catch(ScoreFailedToSaveException $e){
+            throw new ScoreFailedToSaveException();
+        }
+    }
+
+    /**
+     * 最新のスコアを取得する
+     */
+    public function getLatestScore()
+    {
+        return $this->repository->getLatest();
     }
 }
