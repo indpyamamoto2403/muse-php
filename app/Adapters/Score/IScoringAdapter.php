@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Adapters\Score;
-
 interface IScoringAdapter
 {
     /**
-     * @param string $conversationHistory
+     * @param string $conversation_history
      * @return string|null $score
      * @note Jsonデコードを行う必要あり
      * {
      * "style": 3,
-     * "traditionInnovation": 3,
-     * "introspectiveEmotional": 3,
-     * "colorSense": 3,
+     * "tradition_innovation": 3,
+     * "introspective_emotional": 3,
+     * "color_sense": 3,
      * "composition": 3,
      * "technique": 3,
      * "theme": 3,
@@ -20,5 +19,5 @@ interface IScoringAdapter
      * "uniqueness": 3
      * }
      */
-    public function getScore(string $conversationHistory): string | null;
+    public function getScore(string $conversation_history): string | null;
 }

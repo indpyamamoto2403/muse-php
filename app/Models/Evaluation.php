@@ -15,7 +15,8 @@ class Evaluation extends Model
      * 保存可能なカラム
      */
     protected $fillable = [
-        'type',
+        'user_id',
+        'art_id',
         'style',
         'tradition_innovation',
         'introspective_emotional',

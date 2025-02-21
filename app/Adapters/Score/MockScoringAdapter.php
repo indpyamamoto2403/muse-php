@@ -12,9 +12,9 @@ class MockScoringAdapter implements IScoringAdapter
      * @note Jsonデコードを行う必要あり
      * {
      * "style": 3,
-     * "traditionInnovation": 3,
-     * "introspectiveEmotional": 3,
-     * "colorSense": 3,
+     * "tradition_innovation": 3,
+     * "introspective_emotional": 3,
+     * "color_sense": 3,
      * "composition": 3,
      * "technique": 3,
      * "theme": 3,
@@ -27,9 +27,9 @@ class MockScoringAdapter implements IScoringAdapter
         return <<<EOF
             {
                 "style": 3,
-                "traditionInnovation": 3,
-                "introspectiveEmotional": 3,
-                "colorSense": 3,
+                "tradition_innovation": 3,
+                "introspective_emotional": 3,
+                "color_sense": 3,
                 "composition": 3,
                 "technique": 3,
                 "theme": 3,

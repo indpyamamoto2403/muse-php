@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Utils\IOpenAIAPIClient;
 use App\Adapters\Score\IScoringAdapter;
+use App\Repositories\ChatRepository;
 
 class ChatService
 {
@@ -13,11 +14,13 @@ class ChatService
      */
     private $client;
     private $scoringAdapter;
+    private $repository;
 
     public function __construct(IOpenAIAPIClient $client, IScoringAdapter $scoringAdapter)
     {
         $this->client = $client;
         $this->scoringAdapter = $scoringAdapter;
+        $this->repository = new ChatRepository();
     }
 
     public function response(string $message, string $conversationHistory)
@@ -45,11 +48,26 @@ class ChatService
         $answer = $this->client->fetchAnswer($prompt);
         return $answer;
     }
-
+    /**
+     * Undocumented function
+     *
+     * @param string $conversationHistory
+     * @return array Score
+     */
     public function getScore(string $conversationHistory)
     {
         $scoreString = $this->scoringAdapter->getScore($conversationHistory);
         $decodedScoreString = json_decode($scoreString, true);
         return $decodedScoreString;
+    }
+
+    /**
+     * saveScore
+     * @param array $score
+     * @return void
+     */
+    public function saveScore(array $score)
+    {
+        $this->repository->save($score);
     }
 }
