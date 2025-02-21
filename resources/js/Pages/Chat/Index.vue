@@ -52,6 +52,8 @@ const sendMessage = async () => {
     sender: 'system',
     timestamp: getToLocaleTimeString(),
   };
+
+  speak(aiResponseText);
   messages.value.push(aiMessage);
 
   // やり取り回数チェック
@@ -71,15 +73,19 @@ const disagree = () => {
   console.log("キャンセルされました");
 };
 
-// コンポーネントマウント時に読み上げる
-onMounted(() => {
-  const message = "これはFirefoxから読み上げています。あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
+const speak = (message: string) => {
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(message);
     window.speechSynthesis.speak(utterance);
   } else {
     console.warn("このブラウザはテキスト読み上げ機能をサポートしていません。");
   }
+};
+
+// コンポーネントマウント時に読み上げる
+onMounted(() => {
+  const message = "あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
+  speak(message);
 });
 </script>
 

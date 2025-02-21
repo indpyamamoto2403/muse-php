@@ -68,22 +68,27 @@ class ChatService
     public function getScore(string $conversationHistory) : array
     {
         $scoreString = $this->scoringAdapter->getScore($conversationHistory);
-        Log::debug('Successfully fetched data from API', ['status' => $scoreString]);
+
         try{
             $decodedScoreString = json_decode($scoreString, true);
         }catch(ScoreStringDecodingFailedException $e){
             throw new ScoreStringDecodingFailedException();
         }
 
-        Log::debug('Successfully decoded data from API', ['status' => $decodedScoreString]);
         //各値が1-5の間に収まっているか検証
-        foreach($decodedScoreString as $key => $value){
+        $this->validateScoreInCorrectRange($decodedScoreString);
+
+        
+        return $decodedScoreString;
+    }
+
+    public function validateScoreInCorrectRange(array $score)
+    {
+        foreach($score as $key => $value){
             if($value < 1 || $value > 5){
                 throw new ScoreOutOfRangeException();
             }
         }
-
-        return $decodedScoreString;
     }
 
     /**

@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { ref } from 'vue';
 const model = defineModel<string>();
+
+// 録音状態を管理するリアクティブ変数
+const isRecording = ref(false);
 
 const emit = defineEmits<{
   (e: 'sendMessage', message: string): void;
@@ -11,8 +14,6 @@ const sendMessage = async () => {
   model.value = '';
 };
 
-
-// 音声認識を開始する関数
 const startVoiceRecognition = () => {
   // ブラウザによっては webkitSpeechRecognition となるため対応
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -26,19 +27,18 @@ const startVoiceRecognition = () => {
   recognition.interimResults = false; // 暫定結果は不要
   recognition.maxAlternatives = 1; // 最も高い信頼度の結果のみ
 
-  // 録音開始時に通知
   recognition.onstart = () => {
     console.log('録音開始');
+    isRecording.value = true;
   };
 
-  // 録音終了時に通知
   recognition.onend = () => {
     console.log('録音終了');
+    isRecording.value = false;
   };
 
   recognition.onresult = (event: SpeechRecognitionEvent) => {
     if (event.results.length > 0) {
-      // 認識結果を入力欄に反映
       const transcript = event.results[0][0].transcript;
       model.value = transcript;
     }
@@ -46,6 +46,7 @@ const startVoiceRecognition = () => {
 
   recognition.onerror = (event) => {
     console.error('音声認識エラー:', event);
+    isRecording.value = false;
   };
 
   recognition.start();
@@ -69,12 +70,22 @@ const startVoiceRecognition = () => {
         >
           送信
         </button>
-        <!-- 音声認識ボタン -->
+        <!-- 録音中の場合、スピナーがテキストの左側に表示 -->
         <button
           @click="startVoiceRecognition"
-          class="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+          :disabled="isRecording"
+          :class="[
+            'flex items-center px-6 py-2 rounded-lg transition-colors',
+            isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
+          ]"
         >
-          音声認識
+          <template v-if="isRecording">
+            <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+          </template>
+          {{ isRecording ? "録音中..." : "音声認識" }}
         </button>
       </div>
     </div>
