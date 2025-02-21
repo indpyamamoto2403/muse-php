@@ -88,7 +88,8 @@ onMounted(() => {
     <template #header>
       チャット with AI
     </template>
-    <div class="container mx-auto h-screen flex flex-col relative">
+    <div class="w-full">
+    <div class="w-full h-screen flex flex-col relative">
       <ConversationView :messages="messages" />
     </div>
 
@@ -108,6 +109,7 @@ onMounted(() => {
       @agree="agree"
       @disagree="disagree"
       />
+    </div>
   </Layout>
 </template>
 

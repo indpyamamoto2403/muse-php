@@ -54,12 +54,12 @@ const menus = getMenus(role)
     <div class="flex-1 flex flex-col ml-64">
       <!-- ヘッダー（必要に応じて） -->
       <header class="bg-black shadow sticky top-0 z-50" v-if="$slots.header">
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-slate-200 text-lg">
+        <div class="mx-auto px-4 py-6 sm:px-6 lg:px-8 text-slate-200 text-lg">
           <slot name="header" />
         </div>
       </header>
       <!-- ページコンテンツ -->
-      <main class="flex-1 p-4 bg-sky-950 flex justify-center items-center">
+      <main class="p-4 bg-sky-950 flex justify-center items-center w-full px-[150px]">
         <slot />
       </main>
     </div>
