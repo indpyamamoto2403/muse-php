@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getAIResponse(_message: string, conversationHistory: string): Promise<string> {
+export async function fetchAIResponse(_message: string, conversationHistory: string): Promise<string> {
 
     // 生成AIのAPIエンドポイント
     const endpoint = '/api/chat';
@@ -13,11 +13,11 @@ export async function getAIResponse(_message: string, conversationHistory: strin
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(message);
-      }, 100);
+      }, 1000);
     });
   }
 
-export async function getScore(conversationHistory: string): Promise<void> {
+export async function fetchScore(conversationHistory: string): Promise<void> {
   
   // 生成AIのAPIエンドポイント
   const endpoint = '/api/chat/all';
@@ -30,6 +30,6 @@ export async function getScore(conversationHistory: string): Promise<void> {
     setTimeout(() => {
     window.location.href = '/chat/complete';
     resolve();
-    }, 100);
+    }, 5000);
   });
   }

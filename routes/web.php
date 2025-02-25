@@ -34,12 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('company')->group(function () {
 
         Route::get('/art',[ArtController::class,'index'])->name('art.index');
-        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index')->middleware('evaluation.exists');
         Route::get('/chat/complete', [ChatController::class, 'complete'])->name('chat.complete');
 
         // チャットAPI実装機能
-        Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');
-        Route::post('/api/chat/all', [ChatAPIController::class, 'sendAll'])->name('chat.sendAll');
+        Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send')->middleware('evaluation.exists');
+        Route::post('/api/chat/all', [ChatAPIController::class, 'sendAll'])->name('chat.sendAll')->middleware('evaluation.exists');
 
 
     });
