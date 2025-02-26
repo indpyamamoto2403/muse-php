@@ -1,6 +1,6 @@
 <!-- resources/js/Pages/Profile/Partials/UpdateIconForm.vue -->
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm,usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref } from 'vue';
@@ -18,8 +18,9 @@ const form = useForm({
 const showCropper = ref(false);
 const cropper = ref(null);
 const imageSrc = ref('');
-const previewSrc = ref(props.user?.icon_url ?? "");
-
+const page = usePage();
+const previewSrc = ref(page.props.auth.user.icon_url ?? "");
+console.log(props.user);
 // ファイル選択時の処理
 const onFileChange = (e) => {
     const file = e.target.files[0];
