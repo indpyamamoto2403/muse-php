@@ -5,6 +5,7 @@ use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ChatAPIController;
 use App\Http\Controllers\VoiceProviderController;
+use App\Http\Controllers\AudioTestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,8 +43,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');//->middleware('evaluation.exists');
         Route::post('/api/chat/all', [ChatAPIController::class, 'sendAll'])->name('chat.sendAll');//->middleware('evaluation.exists');
 
-        //音声作成API
-        Route::get('/api/voice', [VoiceProviderController::class, 'create'])->name('voice.create');//->middleware('evaluation.exists');
+        // 音声ファイル生成機能
+        Route::get('/api/voice', [VoiceProviderController::class, 'createVoice'])->name('voice.createVoice');
     });
 
     //ロールが芸術家の場合

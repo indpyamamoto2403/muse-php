@@ -7,6 +7,8 @@ use App\Repositories\ChatRepository;
 use App\Exceptions\Score\ScoreStringDecodingFailedException;
 use App\Exceptions\Score\ScoreOutOfRangeException;
 use App\Exceptions\Score\ScoreFailedToSaveException;
+use App\Utils\VoiceProvider;
+
 use Illuminate\Support\Facades\Log;
 class ChatService
 {
@@ -17,6 +19,7 @@ class ChatService
      */
     private $client;
     private $scoringAdapter;
+    private $voiceProvider;
     private $repository;
 
     public function __construct(IOpenAIAPIClient $client, IScoringAdapter $scoringAdapter)
@@ -24,6 +27,7 @@ class ChatService
         $this->client = $client;
         $this->scoringAdapter = $scoringAdapter;
         $this->repository = new ChatRepository();
+        $this->voiceProvider = new VoiceProvider(env('SPEECH_REGION'), env('SPEECH_KEY'));
     }
 
     public function response(string $message, string $conversationHistory)
@@ -51,6 +55,18 @@ class ChatService
         $answer = $this->client->fetchAnswer($prompt);
         return $answer;
     }
+
+    /**
+     * 音声ファイルを生成し、そのURLを返す
+     * @param string $message
+     * @return string $audioURL
+     */
+    public function createVoice(string $message)
+    {
+        $audioURL = $this->voiceProvider->createAndGetAudioURL($message);
+        return $audioURL;
+    }
+
 
     /**
      * 会話履歴からスコアを導出し、保存まで行う

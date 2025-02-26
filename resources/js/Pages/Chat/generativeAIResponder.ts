@@ -10,10 +10,13 @@ export async function fetchAIResponse(_message: string, conversationHistory: str
     });
 
     const message = response.data.message;
+    const audioURL = response.data.audioURL;
+    const audio = new Audio(audioURL);
+    audio.play();
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(message);
-      }, 1000);
+      }, 500);
     });
   }
 

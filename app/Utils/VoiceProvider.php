@@ -23,67 +23,59 @@ class VoiceProvider {
         $this->speechRegion = $speechRegion;
         $this->speechKey = $speechKey;
         $this->outputFormat = $outputFormat;
-        $this->endpoint = "https://japaneast.api.cognitive.microsoft.com/";
+        $this->endpoint = "https://japaneast.tts.speech.microsoft.com/cognitiveservices/v1";
     }
 
     /**
-     * テキストを音声に変換する
-     *
+     * テキストを音声に変換し、ストレージに保存してURLを取得する
      * @param string $text 読み上げるテキスト
      * @param string $voice 使用する音声の名前。デフォルトは 'en-US-AvaMultilingualNeural'
+     * //他の音声名は en-US-GuyNeural, en-US-JennyNeural, en-US-AriaNeural など
+     * (参照先) https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts
      * @param string $lang 言語コード。デフォルトは 'en-US'
      * @param string $gender 音声の性別。デフォルトは 'Female'
-     * @return string 生成された音声のバイナリデータ
+     * @return string 生成された音声ファイルのURL
      * @throws Exception GuzzleのエラーやHTTPエラーの場合に例外をスロー
-     */
-    public function synthesize($text, $voice = 'en-US-AvaMultilingualNeural', $lang = 'en-US', $gender = 'Female') {
-        // SSML形式のリクエストボディを作成
-        $ssml = "<speak version='1.0' xml:lang='{$lang}'>";
-        $ssml .= "<voice xml:lang='{$lang}' xml:gender='{$gender}' name='{$voice}'>";
-        $ssml .= htmlspecialchars($text, ENT_QUOTES | ENT_XML1);
-        $ssml .= "</voice></speak>";
+    */
+    public function createAndGetAudioURL($text, $voice = 'en-GB-OllieMultilingualNeural', $lang = 'en-US', $gender = 'Female') {
+       // SSML形式のリクエストボディを作成
+       $ssml = "<speak version='1.0' xml:lang='{$lang}'>";
+       $ssml .= "<voice xml:lang='{$lang}' xml:gender='{$gender}' name='{$voice}'>";
+       $ssml .= htmlspecialchars($text, ENT_QUOTES | ENT_XML1);
+       $ssml .= "</voice></speak>";
 
-        // Guzzleクライアントの作成
-        $client = new Client();
+       // Guzzleクライアントの作成
+       $client = new Client();
 
-        try {
-            $response = $client->request('POST', $this->endpoint, [
-                'headers' => [
-                    "Ocp-Apim-Subscription-Key" => $this->speechKey,
-                    "Content-Type"               => "application/ssml+xml",
-                    "X-Microsoft-OutputFormat"   => $this->outputFormat,
-                    "User-Agent"                 => "PHPVoiceProvider"
-                ],
-                'body'        => $ssml,
-                // http_errors を false にすると、HTTPエラーコードの場合でも例外が発生しなくなるため、後でチェックできます
-                'http_errors' => false,
-            ]);
-        } catch (RequestException $e) {
-            throw new Exception("Guzzleエラー: " . $e->getMessage());
-        }
+       try {
+          $response = $client->request('POST', $this->endpoint, [
+             'headers' => [
+                "Ocp-Apim-Subscription-Key" => $this->speechKey,
+                "Content-Type"               => "application/ssml+xml",
+                "X-Microsoft-OutputFormat"   => $this->outputFormat,
+                "User-Agent"                 => "PHPVoiceProvider"
+             ],
+             'body'        => $ssml,
+             'http_errors' => false,
+          ]);
+       } catch (RequestException $e) {
+          throw new Exception("Guzzleエラー: " . $e->getMessage());
+       } catch (Exception $e) {
+          throw new Exception("Unexpected error: " . $e->getMessage());
+       }
 
-        // HTTPステータスコードの確認
-        if ($response->getStatusCode() !== 200) {
-            $result = $response->getBody()->getContents();
-            throw new Exception("HTTPエラーコード: " . $response->getStatusCode() . ". レスポンス: " . $result);
-        }
+       // HTTPステータスコードの確認
+       if ($response->getStatusCode() !== 200) {
+          $result = $response->getBody()->getContents();
+          throw new Exception("HTTPエラーコード: " . $response->getStatusCode() . ". レスポンス: " . $result);
+       }
 
-        return $response->getBody()->getContents();
+       // ストレージに音声データを書き込む
+       $fileName = 'audios/' . uniqid('voice_', true) . '.mp3';
+       $filePath = storage_path('app/public/' . $fileName);
+       file_put_contents($filePath, $response->getBody()->getContents());
+
+       // ファイルのURLを返す
+       return asset('storage/' . $fileName);
     }
-}
-
-try {
-    $speechRegion = env('SPEECH_REGION'); // 例: eastus, japanwest など（.env等で正しく設定してください）
-    $speechKey = env('SPEECH_KEY'); // サブスクリプションキーを環境変数から取得
-    $voiceProvider = new VoiceProvider($speechRegion, $speechKey);
-
-    // テキストを音声に変換
-    $text = "my voice is my passport verify me";
-    $audioData = $voiceProvider->synthesize($text);
-
-    // 結果をファイルに保存
-    file_put_contents("output.mp3", $audioData);
-    echo "音声ファイル 'output.mp3' を作成しました。";
-} catch (Exception $e) {
-    echo "エラーが発生しました: " . $e->getMessage();
 }

@@ -21,8 +21,15 @@ class ChatAPIController extends Controller
      */
     public function send(Request $request)
     {
+        //メッセージを送信
         $message = $this->chatService->response($request->message, $request->conversationHistory);
-        return response()->json(['message' => $message]);
+
+        //音声を作成
+        $audioURL = $this->chatService->createVoice($message);
+        return response()->json([
+            'message' => $message, 
+            'audioURL' => $audioURL
+        ]);
     }
 
     /**
