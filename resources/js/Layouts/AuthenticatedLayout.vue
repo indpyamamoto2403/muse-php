@@ -12,6 +12,8 @@ const page: any = usePage();
 type Role = 'company' | 'artist';
 const role: Role = page.props.auth.user.role;
 
+console.log(page.props.auth.user);
+
 // getMenus() で返されるメニュー項目にアイコン情報を追加する例
 const menus = getMenus(role)
 </script>
@@ -54,8 +56,17 @@ const menus = getMenus(role)
     <div class="flex-1 flex flex-col ml-64">
       <!-- ヘッダー（必要に応じて） -->
       <header class="bg-black shadow sticky top-0 z-50" v-if="$slots.header">
-        <div class="mx-auto px-4 py-6 sm:px-6 lg:px-8 text-slate-200 text-lg">
+        <div class="mx-auto px-4 py-6 sm:px-6 lg:px-8 text-slate-200 text-lg flex justify-between">
           <slot name="header" />
+          <!-- profile_photo_pathを表示 -->
+
+          <div class="flex items-center justify-between">
+            <img :src="page.props.auth.user.icon_url" alt="User Profile Photo" class="rounded-full h-10 w-10" />
+            <div>
+              <span class="ml-2 text-white">{{ page.props.auth.user.name }}</span>
+            </div>
+            <div v-if="page.props.auth.user.role === 'admin'" class="text-yellow-500">Admin</div>
+          </div>
         </div>
       </header>
       <!-- ページコンテンツ -->

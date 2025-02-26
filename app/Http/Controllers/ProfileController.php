@@ -48,6 +48,23 @@ class ProfileController extends Controller
     }
 
     /**
+     * ユーザーアイコンを設定する
+     */
+    public function setUserIcon(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'icon' => 'required|image|max:1024', // バリデーションを追加
+        ]);
+
+        $path = $request->file('icon')->store('profile-photos', 'public');
+    
+        $request->user()->update([
+            'profile_photo_path' => $path,
+        ]);
+        return Redirect::route('profile.edit');
+    }
+
+    /**
      * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse
