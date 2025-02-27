@@ -25,22 +25,24 @@ class ArtController extends Controller
         $this->artSimilarityService = $artSimilarityService;
     }
 
+    /**
+     * @return \Inertia\Response
+     */
+    public function index()
+    {
+        $arts = $this->artService->getAllArts();
+        
+        $rank = $this->artSimilarityService->getRank(Auth::id()); 
+        //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4 ; similarity:0.123; id,5 ; similarity:0.023;
 
-/**
- * @return \Inertia\Response
- */
-public function index()
-{
-    $arts = $this->artService->getAllArts();
-    
-    $rank = $this->artSimilarityService->getRank(Auth::id()); //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4 ; similarity:0.123; id,5 ; similarity:0.023;
+        $rankedArt = $this->artSimilarityService->getRankedArts($arts, $rank); //similarityを付与したArtのリスト
 
-    $rankedArt = $this->artSimilarityService->getRankedArts($arts, $rank); //similarityを付与したArtのリスト
+        return Inertia::render('Art/Index', [
 
-    return Inertia::render('Art/Index', [
-        'arts' => $rankedArt
-    ]);
-}
+            'arts' => $rankedArt
+            
+        ]);
+    }
 
     /**
      * @return void
@@ -55,8 +57,18 @@ public function index()
      */
     public function create(Request $request)
     {
-        $path = $request->file('image')->store('public/images');
-        return response()->json(Art::All());
+        $path = $request->file('image')->store('images', 'public');
+
+        Art::Create([
+            'title' => $request->title,
+            'image' => $path,
+            'description' => $request->description,
+            'user_id' => Auth::id()
+        ]);
+        
+        return Inertia::render('Art/Index', [
+            'arts' => Art::all()
+        ]);
     }
 
     /**
