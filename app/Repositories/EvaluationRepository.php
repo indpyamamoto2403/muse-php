@@ -45,4 +45,9 @@ class EvaluationRepository
     {
         return $evaluation->delete();
     }
+
+    public function getUserEvaluation($userId) : ?Evaluation
+    {
+        return Evaluation::where('user_id', $userId)->first();
+    }
 }

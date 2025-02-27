@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\EvaluationRepository;
-
+use App\Models\Evaluation;
 /**
  * Class EvaluationService
  *
@@ -36,6 +36,15 @@ class EvaluationService
     {
         return $this->evaluationRepository->all();
     }
+
+    /**
+     * 
+     */
+    public function getUserEvaluation($userId) : Evaluation
+    {
+        return $this->evaluationRepository->getUserEvaluation($userId);
+    }
+
 
     /**
      * Retrieve a single evaluation by its ID.

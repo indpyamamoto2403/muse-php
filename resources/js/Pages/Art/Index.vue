@@ -36,6 +36,9 @@ const handleClear = () => {
 const handleSearch = (query: string) => {
   searchQuery.value = query;
 };
+
+console.log(props.arts);
+
 </script>
 
 <template>
