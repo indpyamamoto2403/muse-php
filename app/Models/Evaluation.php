@@ -17,6 +17,7 @@ class Evaluation extends Model
     protected $fillable = [
         'user_id',
         'art_id',
+        'type',
         'style',
         'tradition_innovation',
         'introspective_emotional',
@@ -27,4 +28,10 @@ class Evaluation extends Model
         'energy',
         'uniqueness',
     ];
+
+
+    public function art()
+    {
+        return $this->belongsTo(Art::class);
+    }
 }

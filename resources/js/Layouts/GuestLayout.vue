@@ -29,7 +29,7 @@ import { Link } from '@inertiajs/vue3';
 
         <!-- Optional brand text below the form -->
         <div class="relative z-10 mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-            <p>ArtisanAI — パーソナライズされた芸術体験</p>
+            <p>Muse — パーソナライズされた芸術体験</p>
         </div>
     </div>
 </template>

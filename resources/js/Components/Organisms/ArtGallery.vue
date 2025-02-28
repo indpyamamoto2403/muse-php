@@ -7,6 +7,7 @@
       :title="art.title"
       :description="art.description"
       :imageUrl="art.image_url"
+      :user="art.user"
     />
   </ul>
 </template>

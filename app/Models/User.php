@@ -57,6 +57,12 @@ class User extends Authenticatable
         ];
     }
 
+
+    public function art()
+    {
+        return $this->hasMany(Art::class);
+    }
+
     /**
      * Update the user's profile photo.
      *

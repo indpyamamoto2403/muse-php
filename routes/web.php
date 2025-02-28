@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ChatAPIController;
+use App\Http\Controllers\ConversationChatController;
 use App\Http\Controllers\VoiceProviderController;
 use App\Http\Controllers\AudioTestController;
 use Illuminate\Foundation\Application;
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/user-icon.set', [ProfileController::class, 'setUserIcon'])->name('user-icon.set');
+
+
+    //会話チャット機能
+    Route::get('/conversation', [ConversationChatController::class, 'index'])->name('conversations.index');
+    Route::get('/conversation/{conversation}', [ConversationChatController::class, 'show'])->name('conversations.show');
+    Route::get('/conversation/send', [ConversationChatController::class, 'sendMessage'])->name('conversations.send');
 
     //ロールが企業の場合
     Route::middleware('company')->group(function () {

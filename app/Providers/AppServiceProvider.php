@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(IOpenAIAPIClient::class, MockOpenAIAPIClient::class);
-        $this->app->bind(IScoringAdapter::class, MockScoringAdapter::class);
+        $this->app->bind(IOpenAIAPIClient::class, OpenAIAPIClient::class);
+        $this->app->bind(IScoringAdapter::class, ScoringAdapter::class);
         $this->app->bind(ISimilarity::class, CosineSimilarity::class);
     }
 

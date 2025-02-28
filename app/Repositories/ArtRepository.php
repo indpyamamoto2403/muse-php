@@ -11,7 +11,8 @@ class ArtRepository
      */
     public function getAll()
     {
-        return Art::all();
+        //artに所属するユーザー情報も一緒に取得したい場合は以下のように書く
+        return Art::with('user')->get();
     }
 
     /**

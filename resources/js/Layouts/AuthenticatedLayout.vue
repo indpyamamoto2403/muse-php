@@ -24,7 +24,7 @@ const menus = getMenus(role);
     <nav class="w-64 bg-gradient-to-b from-sky-900 to-indigo-900 text-white flex flex-col border-r border-purple-900/30 max-h-screen fixed inset-0 shadow-lg">
       <!-- ロゴエリア -->
       <div class="p-4 border-b border-sky-800/50 flex items-center justify-center">
-        <span class="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">ArtisanAI</span>
+        <span class="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Muse</span>
       </div>
       
       <div class="flex-1 overflow-y-auto custom-scrollbar">

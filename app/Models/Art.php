@@ -24,4 +24,15 @@ class Art extends Model
         }
         return asset('storage/' . $this->image);
     }
+
+    public function evaluation()
+    {
+        return $this->hasOne(Evaluation::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

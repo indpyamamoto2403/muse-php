@@ -22,7 +22,7 @@ const messages = ref<Message[]>([
 ]);
 
 const newMessage = ref('');
-const maxCount: number = 10; // トライアル回数
+const maxCount: number = 3; // トライアル回数
 const showScoreExtractionModal = ref(false);
 const showCompletionModal = ref(false);
 // 音声再生の注意モーダルを初期表示
