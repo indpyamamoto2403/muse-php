@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { onMounted } from 'vue'; // Import onMounted
 
 defineProps({
     canResetPassword: {
@@ -27,6 +28,28 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+onMounted(() => {
+  // Cookieからemailとpasswordを取得
+  const emailCookie = getCookie('user_id'); // Cookie名が 'user_id'
+  const passwordCookie = getCookie('user_password');   // Cookie名が 'user_password'
+
+  // URLデコード (user_idがURLエンコードされている場合)
+  if (emailCookie) {
+      form.email = decodeURIComponent(emailCookie);
+  }
+
+  if (passwordCookie) {
+      form.password = passwordCookie; // パスワードは通常デコード不要
+  }
+});
+
 </script>
 
 <template>
@@ -72,9 +95,7 @@ const submit = () => {
             <div class="mt-4 block">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
+                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
             </div>
 

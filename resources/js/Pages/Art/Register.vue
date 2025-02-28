@@ -117,13 +117,12 @@ const registerArt = async () => {
     <template #header>
       Register Art
     </template>
-    <div class="max-w-2xl mx-auto p-4 bg-sky-950">
-
+    <div class="w-9/12 p-4 bg-sky-950">
       <!-- フォーム本体 -->
-      <form @submit.prevent="registerArt" class="bg-slate-200 p-6 rounded shadow">
+      <form @submit.prevent="registerArt" class="bg-slate-300 p-6 rounded shadow w-4xl">
         <!-- Title -->
         <div class="mb-4">
-          <label for="title" class="block mb-1 font-semibold">Title</label>
+          <label for="title" class="block mb-1 font-semibold">タイトル</label>
           <input
             type="text"
             id="title"
@@ -138,7 +137,7 @@ const registerArt = async () => {
 
         <!-- Description -->
         <div class="mb-4">
-          <label for="description" class="block mb-1 font-semibold">Description</label>
+          <label for="description" class="block mb-1 font-semibold">説明</label>
           <textarea
             id="description"
             v-model="form.description"
@@ -153,7 +152,7 @@ const registerArt = async () => {
 
         <!-- Image -->
         <div class="mb-4">
-          <label for="image" class="block mb-1 font-semibold">Image</label>
+          <label for="image" class="block mb-1 font-semibold">画像ファイル</label>
           <input
             type="file"
             id="image"
@@ -339,7 +338,7 @@ const registerArt = async () => {
             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold
                      py-2 px-6 rounded disabled:opacity-70"
           >
-            Register
+            登録
           </button>
         </div>
       </form>

@@ -32,6 +32,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        
+        if ($request->has('remember') && env('APP_ENV') === 'local') {
+            $minutes = 60 * 24 * 30; // 30 days
+            setcookie('user_id', $request->input('email'), time() + ($minutes * 60), "/", "", false, true);
+            setcookie('user_password', $request->input('password'), time() + ($minutes * 60), "/", "", false, true);
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

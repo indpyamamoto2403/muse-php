@@ -43,7 +43,6 @@ class ArtSimilarityService
     public function getRank(int $userId)
     {
         $userEvaluation = $this->getUserEvaluation($userId);
-
         // ユーザーの評価をベクトルに変換
         $userVector = [
             'style' => (float) $userEvaluation->style,
