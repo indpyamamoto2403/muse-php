@@ -64,15 +64,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Update the user's profile photo.
-     *
      * @param \Illuminate\Http\UploadedFile $photo
      * @return void
      */
     public function getIconUrlAttribute()
     {
         return $this->profile_photo_path
-            ? Storage::url($this->profile_photo_path)
-            : null;
+            ? asset(Storage::url($this->profile_photo_path))
+            : asset(Storage::url('profile-photos/default.png'));
     }
 }

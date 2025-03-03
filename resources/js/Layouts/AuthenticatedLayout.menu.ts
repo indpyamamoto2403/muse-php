@@ -1,4 +1,4 @@
-import { faHome, faUser, faCog, faComments, faPalette } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faCog, faComments, faPalette, faBacon } from '@fortawesome/free-solid-svg-icons'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 type Role = 'company' | 'artist'
@@ -15,7 +15,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'Dashboard', route: route('dashboard'), icon: faHome },
       { name: 'ArtList', route: route('art.index'), icon: faPalette },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'Chat', route: route('chat.index'), icon: faComments },
+      { name: 'AI', route: route('chat.index'), icon: faBacon },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
     ],
     artist: [
@@ -25,6 +25,6 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
     ]
   }
-
+  
   return menus[role]
 }

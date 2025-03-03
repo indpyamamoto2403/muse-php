@@ -104,7 +104,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { ref, computed } from 'vue'
 import { usePage, useForm } from '@inertiajs/vue3'
-
+import { formatDate } from '@/Functions/Date'
 const userProps = usePage().props.auth.user
 
 // Inertia から渡される props
@@ -120,13 +120,10 @@ const otherParticipant = computed(() => {
     (participant: any) => participant.user.id !== userProps.id
   )?.user;
 });
-console.log(otherParticipant.value);
 const form = useForm({
   content: '',
   recepter_id: otherParticipant.value.id, // 初期値として設定
 });
-
-console.log(props.conversation);
 
 function sendMessage() {
   form.post('/conversations/send', {
@@ -134,48 +131,28 @@ function sendMessage() {
   });
 }
 
-// ユーザー名からイニシャルを取得
-function getInitials(name) {
-  return name
-    .split(' ')
-    .map(part => part.charAt(0))
-    .join('')
-    .toUpperCase();
-}
 
-// 日付フォーマット
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('ja-JP', {
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(date);
-}
 </script>
 
 <style scoped>
 .messages {
-  height: 70vh;
-  scroll-behavior: smooth;
+  @apply h-[70vh] scroll-smooth;
 }
 
 .message {
-  max-width: 75%;
-  position: relative;
+  @apply max-w-[75%] relative;
 }
 
 .message-wrapper {
-  margin-bottom: 12px;
+  @apply mb-3;
 }
 
 /* メッセージの吹き出し風デザイン */
 .message-wrapper:not(.justify-end) .message {
-  border-top-left-radius: 4px;
+  @apply rounded-tl;
 }
 
 .message-wrapper.justify-end .message {
-  border-top-right-radius: 4px;
+  @apply rounded-tr;
 }
-
-
 </style>
