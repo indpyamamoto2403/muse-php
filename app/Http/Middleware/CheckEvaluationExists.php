@@ -23,11 +23,9 @@ class CheckEvaluationExists
             ->exists();
 
         if ($exists) {
-            abort(403, '既に評価が存在します。');
-        } else {
-
+            //ダッシュボードにリダイレクト
+            return redirect()->route('dashboard');
         }
-
         return $next($request);
     }
 }

@@ -1,5 +1,8 @@
 <template>
   <AuthenticatedLayout>
+    <template #header>
+      Conversations
+    </template>
     <div class="conversation-show p-6 bg-gradient-to-b from-blue-50 to-white rounded-lg shadow-lg">
       <header class="mb-6 flex items-center justify-between border-b pb-4">
         <div class="flex items-center">
