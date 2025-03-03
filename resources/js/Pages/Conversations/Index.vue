@@ -1,3 +1,18 @@
+  <script setup lang="ts">
+  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+  import { Link } from '@inertiajs/vue3'
+  
+  // props は Inertia 経由で渡される会話一覧データ
+  defineProps({
+    conversations: Array,
+  })
+  </script>
+  
+  <style scoped>
+  .avatar {
+    object-fit: cover;
+  }
+</style>
 <template>
     <AuthenticatedLayout>
       <div class="conversations-index p-6">
@@ -27,20 +42,5 @@
       </div>
     </AuthenticatedLayout>
   </template>
-  
-  <script setup lang="ts">
-  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-  import { Link } from '@inertiajs/vue3'
-  
-  // props は Inertia 経由で渡される会話一覧データ
-  defineProps({
-    conversations: Array,
-  })
-  </script>
-  
-  <style scoped>
-  .avatar {
-    object-fit: cover;
-  }
-  </style>
+
   

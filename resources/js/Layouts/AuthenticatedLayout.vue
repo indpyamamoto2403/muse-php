@@ -12,7 +12,6 @@ const page: any = usePage();
 type Role = 'company' | 'artist';
 const role: Role = page.props.auth.user.role;
 
-console.log(page.props.auth.user);
 
 // getMenus() で返されるメニュー項目にアイコン情報を追加する例
 const menus = getMenus(role);

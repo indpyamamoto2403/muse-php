@@ -40,9 +40,15 @@ class ArtSimilarityService
      * @param int $userId
      * @return collection<int, art_id, similarity: float>
      */
-    public function getRank(int $userId)
+    public function getRank(int $userId) : ?Collection
     {
         $userEvaluation = $this->getUserEvaluation($userId);
+        
+        // ユーザーの評価がない場合はnullを返す
+        if ($userEvaluation === null) {
+            return null;
+        }
+        
         // ユーザーの評価をベクトルに変換
         $userVector = [
             'style' => (float) $userEvaluation->style,

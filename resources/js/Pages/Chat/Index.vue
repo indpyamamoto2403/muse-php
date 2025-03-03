@@ -68,7 +68,7 @@ const disagree = () => {
 // Audio Warning Modal の処理
 const handleAudioAgree = async () => {
   showAudioWarningModal.value = false;
-  const firstMessage = "おはようございます！今日あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
+  const firstMessage = "おはようございます！今日もまた、あなたの芸術作品の趣味嗜好について教えてください！最近、どんな映画を見た？";
   try {
     const response = await axios.get('/api/voice', { params: { text: firstMessage } });
     const audioURL = response.data.audioURL;

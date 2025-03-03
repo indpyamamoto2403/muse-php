@@ -32,20 +32,28 @@ class ConversationChatController extends Controller
             'conversations' => $conversations,
         ]);
     }
-
+    
     /**
-     * 個別の会話詳細画面を表示する
+     * 個別の会話を実装する
+     * 
      */
-    public function show(Conversation $conversation)
+    public function show(Request $request, int | string $recepterId)
     {
-        $userId = Auth::id();
+        $senderId = Auth::id();
+        // 送信者と受信者間の既存の会話を検索
+        $conversation = Conversation::whereHas('conversationParticipants', function ($query) use ($senderId) {
+            $query->where('user_id', $senderId);
+        })->whereHas('conversationParticipants', function ($query) use ($recepterId) {
+            $query->where('user_id', $recepterId);
+        })->first();
+        
 
-        // 現在のユーザーが会話の参加者であるかチェック
-        if (!$conversation->conversationParticipants()->where('user_id', $userId)->exists()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
+        // 既存の会話がなければ新たに作成する
+        if (!$conversation) {
+            $conversation = $this->chatRepository->createConversation($senderId, $recepterId);
         }
-
-        // 関連する参加者とメッセージ情報を読み込み
+    
+        // 関連する参加者とメッセージ情報を読み込む
         $conversation->load(['conversationParticipants.user', 'messages.sender']);
 
         return Inertia::render('Conversations/Show', [
@@ -83,7 +91,7 @@ class ConversationChatController extends Controller
         $this->chatRepository->sendMessage($conversation->id, $senderId, $content);
 
         // メッセージ送信後は、個別会話画面へリダイレクトする
-        return redirect()->route('conversations.show', $conversation->id)
+        return redirect()->route('conversations.show', $senderId)
                          ->with('success', 'Message sent successfully.');
     }
 }

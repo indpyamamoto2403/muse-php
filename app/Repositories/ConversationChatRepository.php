@@ -18,7 +18,6 @@ class ConversationChatRepository
     {
         return DB::transaction(function () use ($userOneId, $userTwoId) {
             $conversation = Conversation::create();
-
             // 会話参加者情報を登録（参加者は必ず2人）
             $conversation->conversationParticipants()->createMany([
                 ['user_id' => $userOneId],

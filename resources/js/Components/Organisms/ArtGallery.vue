@@ -29,4 +29,7 @@ const handleDelete = async (artId: number) => {
     console.error('Failed to delete art:', error);
   }
 };
+
+
+
 </script>
