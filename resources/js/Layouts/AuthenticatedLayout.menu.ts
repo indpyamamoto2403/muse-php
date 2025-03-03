@@ -16,11 +16,13 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'ArtList', route: route('art.index'), icon: faPalette },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
       { name: 'Chat', route: route('chat.index'), icon: faComments },
+      { name: 'Conversations', route: route('conversations.index'), icon: faComments },
     ],
     artist: [
       { name: 'Dashboard', route: route('dashboard'), icon: faHome },
       { name: 'Art', route: route('art.register'), icon: faPalette },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
+      { name: 'Conversations', route: route('conversations.index'), icon: faComments },
     ]
   }
 

@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
 
     //会話チャット機能
-    Route::get('/conversation', [ConversationChatController::class, 'index'])->name('conversations.index');
+    Route::get('/conversations', [ConversationChatController::class, 'index'])->name('conversations.index');
     // 受信者IDをパラメータとして受け取るルートに変更
     Route::get('/conversations/{recepterId}', [ConversationChatController::class, 'show'])->name('conversations.show');
     Route::post('/conversations/send', [ConversationChatController::class, 'sendMessage'])->name('conversations.send');

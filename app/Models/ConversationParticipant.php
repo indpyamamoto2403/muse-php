@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ConversationParticipant extends Model
 {
     // conversation_participants テーブルは複合主キーを持つため、auto increment を無効にします。
     public $incrementing = false;
 
-    // デフォルトで timestamps() を利用しているので created_at / updated_at が管理されます。
     protected $fillable = [
         'conversation_id',
-        'user_id'
+        'user_id',
+        'recepter_id',
     ];
 
     /**

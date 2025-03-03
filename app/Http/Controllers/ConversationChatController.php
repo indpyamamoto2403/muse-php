@@ -24,6 +24,7 @@ class ConversationChatController extends Controller
     {
         $userId = Auth::id();
 
+
         $conversations = Conversation::whereHas('conversationParticipants', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->with(['conversationParticipants.user', 'messages.sender'])->get();
@@ -91,7 +92,7 @@ class ConversationChatController extends Controller
         $this->chatRepository->sendMessage($conversation->id, $senderId, $content);
 
         // メッセージ送信後は、個別会話画面へリダイレクトする
-        return redirect()->route('conversations.show', $senderId)
+        return redirect()->route('conversations.show', $recepterId)
                          ->with('success', 'Message sent successfully.');
     }
 }
