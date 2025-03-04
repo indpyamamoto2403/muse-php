@@ -5,4 +5,7 @@ export interface Art {
     title: string;
     description: string;         
     image_url: string;
+    user: object;
+    likes: object;
+    saves: object;
   }

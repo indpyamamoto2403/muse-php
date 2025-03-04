@@ -34,7 +34,7 @@ class ArtController extends Controller
     {
         $arts = $this->artService->getAllArts();
         $rank = $this->artSimilarityService->getRank(Auth::id());
-        //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4 ; similarity:0.123; id,5 ; similarity:0.023;
+        //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4; similarity:0.123; id,5 ; similarity:0.023;
 
         //もし$rankがnullだったら、そのまま$artsを代入する
         if ($rank !== null) {

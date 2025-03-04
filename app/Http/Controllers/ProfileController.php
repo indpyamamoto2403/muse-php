@@ -36,6 +36,8 @@ class ProfileController extends Controller
                 'name' => $request->name,
                 'role' => $request->role,
                 'email' => $request->email,
+                'occupation' => $request->occupation,
+                'self_introduction' => $request->self_introduction,
             ]
         );
         if ($request->user()->isDirty('email')) {

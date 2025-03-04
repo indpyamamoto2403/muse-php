@@ -20,6 +20,8 @@ const form = useForm({
     name: user.name,
     email: user.email,
     role: user.role,
+    occupation: user.occupation || '',
+    self_introduction: user.self_introduction || '',
 });
 </script>
 
@@ -84,6 +86,35 @@ const form = useForm({
                 </select>
 
                 <InputError class="mt-2" :message="form.errors.role" />
+            </div>
+
+            <div>
+                <InputLabel for="occupation" value="職業" />
+
+                <TextInput
+                    id="occupation"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.occupation"
+                    required
+                    autocomplete="occupation"
+                />
+
+                <InputError class="mt-2" :message="form.errors.occupation" />
+            </div>
+
+            <div>
+                <InputLabel for="self_introduction" value="自己紹介" />
+
+                <textarea
+                    id="self_introduction"
+                    class="mt-1 block w-full min-h-[200px] rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                    v-model="form.self_introduction"
+                    required
+                    autocomplete="self_introduction"
+                ></textarea>
+
+                <InputError class="mt-2" :message="form.errors.self_introduction" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

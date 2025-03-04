@@ -32,8 +32,6 @@ const isSaved = computed(() => {
     return save.user_id === authUser.id;
   });
 });
-console.log(props.saves);
-console.log(props.likes);
 </script>
 
 <template>
