@@ -158,6 +158,7 @@ function handleImageError() {
                                         <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                                         <line x1="2" x2="22" y1="10" y2="10"></line>
                                     </svg>
+                        
                                 </div>
                                 <h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">作品購入</h3>
                                 <p class="text-gray-600 dark:text-gray-400">

@@ -18,7 +18,6 @@ const filteredArts = computed(() => {
   }
   return props.arts.filter(art => {
     const title = art.title?.toLowerCase() || ''; // nullやundefinedを空文字列にフォールバック
-
     return title.includes(searchQuery.value.toLowerCase());
   });
 });
@@ -36,8 +35,6 @@ const handleClear = () => {
 const handleSearch = (query: string) => {
   searchQuery.value = query;
 };
-
-
 </script>
 
 <template>

@@ -57,10 +57,23 @@ class User extends Authenticatable
         ];
     }
 
-
+    /**
+     * ユーザーは沢山のアート作品を投稿するので
+     * @return void
+     */
     public function art()
     {
         return $this->hasMany(Art::class);
+    }
+    
+    public function likes()
+    {
+        return $this->hasMany(Art::class, 'likes');
+    }
+
+    public function saves()
+    {
+        return $this->hasMany(Art::class, 'saves');
     }
 
     /**
@@ -73,4 +86,6 @@ class User extends Authenticatable
             ? asset(Storage::url($this->profile_photo_path))
             : asset(Storage::url('profile-photos/default.png'));
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArtController;
+use App\Http\Controllers\ArtApiController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ChatAPIController;
 use App\Http\Controllers\ConversationChatController;
@@ -36,9 +37,15 @@ Route::middleware('auth')->group(function () {
 
     //会話チャット機能
     Route::get('/conversations', [ConversationChatController::class, 'index'])->name('conversations.index');
+    
     // 受信者IDをパラメータとして受け取るルートに変更
     Route::get('/conversations/{recepterId}', [ConversationChatController::class, 'show'])->name('conversations.show');
     Route::post('/conversations/send', [ConversationChatController::class, 'sendMessage'])->name('conversations.send');
+
+    // いいね機能・保存機能のルート
+    Route::post('api/like', [ArtApiController::class, 'like'])->name('like');
+    Route::post('api/save', [ArtApiController::class, 'save'])->name('save');
+
     //ロールが企業の場合
     Route::middleware('company')->group(function () {
 

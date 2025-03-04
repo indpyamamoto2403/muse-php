@@ -11,8 +11,8 @@ class ArtRepository
      */
     public function getAll()
     {
-        //artに所属するユーザー情報も一緒に取得したい場合は以下のように書く
-        return Art::with('user')->get();
+        //artに所属するユーザー情報やライクも一緒に取得したい場合は以下のように書く
+        return Art::with(['user', 'likes','saves'])->get();
     }
 
     /**
@@ -20,7 +20,7 @@ class ArtRepository
      */
     public function findById($id)
     {
-        return Art::findOrFail($id);
+        return Art::with(['user', 'likes', 'saves'])->findOrFail($id);
     }
 
     /**
