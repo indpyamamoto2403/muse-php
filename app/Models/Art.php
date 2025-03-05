@@ -34,7 +34,7 @@ class Art extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -43,6 +43,11 @@ class Art extends Model
     public function saves()
     {
         return $this->hasMany(Save::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

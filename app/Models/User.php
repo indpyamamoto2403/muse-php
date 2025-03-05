@@ -78,6 +78,11 @@ class User extends Authenticatable
         return $this->hasMany(Art::class, 'saves');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     /**
      * @param \Illuminate\Http\UploadedFile $photo
      * @return void

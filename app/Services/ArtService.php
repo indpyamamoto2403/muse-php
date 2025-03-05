@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Repositories\ArtRepository;
 use App\Repositories\EvaluationRepository;
+use App\Models\Art;
+use App\Models\Like;
+use Illuminate\Support\Facades\DB;
 
 class ArtService
 {
@@ -59,5 +62,23 @@ class ArtService
     public function deleteArt($id)
     {
         return $this->artRepository->delete($id);
+    }
+
+    /**
+     * ユーザーがいいねした作品を取得
+     * 
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getFavoriteArts($userId)
+    {
+        // ユーザーがいいねした作品IDを取得
+        $favoriteArtIds = Like::where('user_id', $userId)
+            ->pluck('art_id');
+            
+        // いいねした作品の詳細情報を取得
+        return Art::with(['user', 'evaluation', 'likes', 'saves'])
+            ->whereIn('id', $favoriteArtIds)
+            ->get();
     }
 }

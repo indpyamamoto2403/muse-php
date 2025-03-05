@@ -3,6 +3,8 @@ import ArtImage from '@/Components/Atoms/ArtImage.vue';
 import LikeButton from '@/Components/Atoms/LikeButton.vue';
 import SaveButton from '@/Components/Atoms/SaveButton.vue';
 import UserLink from '@/Components/Atoms/UserLink.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faHome, faUser, faCog, faSignOutAlt, faPalette, faImages, faChartLine, faComment } from '@fortawesome/free-solid-svg-icons';
 import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 const props = defineProps<{
@@ -18,6 +20,12 @@ const props = defineProps<{
   likes:any;
   saves:any;
 }>();
+
+const emits = defineEmits(['openBoardModal']);
+
+function openBoardModal() {
+  emits('openBoardModal', props.artId);
+}
 
 const authUser = usePage().props.auth.user;
 
@@ -47,5 +55,8 @@ const isSaved = computed(() => {
     <h2 class="text-2xl font-semibold mb-2 text-gray-700">{{ title }}</h2>
     <p class="text-gray-500 mb-4">{{ description }}</p>
     <ArtImage :src="imageUrl" :alt="title" />
+    <div class="pt-3 flex items-center justify-end">
+      <font-awesome-icon :icon="faComment" class="text-slate-300 text-xl hover:cursor-pointer" @click="openBoardModal"/>
+    </div>
   </li>
 </template>

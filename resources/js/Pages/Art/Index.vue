@@ -3,38 +3,16 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ArtGallery from '@/Components/Organisms/ArtGallery.vue';
 import { Art } from '@/Types/Art';
 import SearchBox from '@/Components/Molecules/SearchBox.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, toRef } from 'vue';
+import { useArtSearch } from '@/Composables/useArtSearch';
 
-// 親から渡されるプロップス
+
 const props = defineProps<{
   arts: Art[];
 }>();
 
-const searchQuery = ref('');
-
-const filteredArts = computed(() => {
-  if (!searchQuery.value) {
-    return props.arts; // 検索クエリが空の場合は全てのアートを返す
-  }
-  return props.arts.filter(art => {
-    const title = art.title?.toLowerCase() || ''; // nullやundefinedを空文字列にフォールバック
-    return title.includes(searchQuery.value.toLowerCase());
-  });
-});
-
-/**
- * 検索ボックスをクリアするハンドラー
- */
-const handleClear = () => {
-  searchQuery.value = '';
-};
-
-/**
- * 検索ボックスから検索クエリを受け取るハンドラー
- */
-const handleSearch = (query: string) => {
-  searchQuery.value = query;
-};
+const artsRef = toRef(props, 'arts');
+const { filteredArts, handleSearch, handleClear } = useArtSearch(artsRef);
 </script>
 
 <template>

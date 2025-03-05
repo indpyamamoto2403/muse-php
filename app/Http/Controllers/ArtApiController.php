@@ -23,7 +23,7 @@ class ArtApiController extends Controller
         if($request->isLiked){
             $this->artApiService->like($request->artId, $this->userId);
         }else{
-            $this->artApiService->unlike($request->artId, $this->userId); // Update variable from $artId to $request->artId
+            $this->artApiService->unlike($request->artId, $this->userId);
         }
 
         return response()->json(['message' => $request->is_like ? 'いいねしました' : 'いいねを取り消しました']);
@@ -38,5 +38,12 @@ class ArtApiController extends Controller
         }
 
         return response()->json(['message' => $request->is_save ? '保存しました' : '保存を取り消しました']);
+    }
+
+    public function comment(Request $request)
+    {
+        Log::debug($request->all());
+        $this->artApiService->comment($request->artId, $request->comment);
+        return response()->json(['message' => 'コメントしました']);
     }
 }

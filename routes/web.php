@@ -45,6 +45,12 @@ Route::middleware('auth')->group(function () {
     // いいね機能・保存機能のルート
     Route::post('api/like', [ArtApiController::class, 'like'])->name('like');
     Route::post('api/save', [ArtApiController::class, 'save'])->name('save');
+    
+    // コメント機能のルート
+    Route::post('api/comment', [ArtApiController::class, 'comment'])->name('comment');
+
+    // お気に入り作品一覧表示
+    Route::get('/art/favorite', [ArtController::class, 'favorite'])->name('art.favorite');
 
     //ロールが企業の場合
     Route::middleware('company')->group(function () {

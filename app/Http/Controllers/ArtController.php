@@ -33,8 +33,7 @@ class ArtController extends Controller
     public function index()
     {
         $arts = $this->artService->getAllArts();
-        $rank = $this->artSimilarityService->getRank(Auth::id());
-        //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4; similarity:0.123; id,5 ; similarity:0.023;
+        $rank = $this->artSimilarityService->getRank(Auth::id()); //Rankの対応表みたいなもの。　id,3 ; similarity:0.223 ; id,4; similarity:0.123; id,5 ; similarity:0.023;
 
         //もし$rankがnullだったら、そのまま$artsを代入する
         if ($rank !== null) {
@@ -102,6 +101,20 @@ class ArtController extends Controller
         $art->delete();
         return response()->json([
             'message' => 'Art deleted successfully'
+        ]);
+    }
+
+    /**
+     * ユーザーがいいねした作品を表示
+     * 
+     * @return \Inertia\Response
+     */
+    public function favorite()
+    {
+        $favoriteArts = $this->artService->getFavoriteArts(Auth::id());
+        
+        return Inertia::render('Art/Favorite', [
+            'arts' => $favoriteArts
         ]);
     }
 }
