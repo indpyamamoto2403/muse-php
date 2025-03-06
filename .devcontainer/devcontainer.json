@@ -1,0 +1,16 @@
+// .devcontainer/devcontainer.json
+{
+    "image": "mcr.microsoft.com/devcontainers/php:8.3-bullseye", // または 8.2, 8.1 など、必要なバージョン
+    // "image": "mcr.microsoft.com/devcontainers/php:8.3-buster", // 古いDebianバージョン
+    // "image": "mcr.microsoft.com/devcontainers/php:8.3-focal",  // Ubuntuベース (focal=20.04)
+    // "image": "mcr.microsoft.com/devcontainers/php:8.3-jammy",   // Ubuntuベース (jammy=22.04)
+  
+    // ... その他の設定 (必要に応じて) ...
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "bmewburn.vscode-intelephense-client" // PHPの補完
+        ]
+      }
+    }
+  }

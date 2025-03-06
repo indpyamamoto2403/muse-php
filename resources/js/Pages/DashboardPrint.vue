@@ -61,8 +61,6 @@ const sampleScoreData = ref([
 
 
 function onChartRendered(dataURL: string) {
-  console.log('onChartRendered', dataURL);
-  //chartImageUrl.value = dataURL;
   chartImageUrl.value = dataURL;
 }
 
