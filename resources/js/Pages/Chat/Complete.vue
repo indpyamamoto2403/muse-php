@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Score } from '@/Types/Evaluation';
-import { onMounted, ref } from 'vue';
-import Chart from 'chart.js/auto';
-import { createRadarChartConfig } from '@/Pages/Chat/Chart.config';
+import ScoreChart from '@/Components/Organisms/Score/ScoreChart.vue';
 
 const props = defineProps<{ score: Score }>();
-
 
 interface Dataset {
   label: string;
@@ -24,14 +21,6 @@ const datasets: Dataset[] = [
   { label: 'エネルギー', value: props.score.energy },
   { label: '独自性', value: props.score.uniqueness },
 ];
-
-const chartCanvas = ref<HTMLCanvasElement | null>(null);
-
-onMounted(() => {
-  if (chartCanvas.value) {
-    new Chart(chartCanvas.value, createRadarChartConfig(datasets));
-  }
-});
 </script>
 
 <template>
@@ -44,7 +33,7 @@ onMounted(() => {
           以下のスコアは、あなたの芸術作品に対する評価です。スコアは、<br/>
           あなたの作品の特徴を表しています。スコアが高ければ高いほど、<br/>
           その特徴が強調されています。このスコアは、あなたに合う作品が<br/>
-            どのようなものかを知るためのデータとして使用されます。
+          どのようなものかを知るためのデータとして使用されます。
         </p>
         <div class="score-grid">
           <div v-for="dataset in datasets" :key="dataset.label">
@@ -52,10 +41,9 @@ onMounted(() => {
             <span class="value">{{ dataset.value }}</span>
           </div>
         </div>
-        <!-- Chart.js 用のキャンバス -->
-        <div class="chart-container">
-          <canvas ref="chartCanvas" class="block"></canvas>
-        </div>
+        
+        <!-- 外部コンポーネントとしてのチャート -->
+        <ScoreChart :datasets="datasets" />
       </div>
     </div>
   </AuthenticatedLayout>
@@ -88,11 +76,5 @@ onMounted(() => {
 
 .value {
   @apply text-yellow-400 text-lg font-bold;
-}
-
-.chart-container {
-  @apply mt-8 w-full mx-auto flex items-center justify-center;
-  position: relative;
-  height: 400px; /* キャンバスの高さを指定 */
 }
 </style>

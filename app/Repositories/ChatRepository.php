@@ -32,9 +32,9 @@ class ChatRepository
     /**
      * @return Evaluation
      */
-    public function getLatest() : Evaluation
+    public function getLatest() : ?Evaluation
     {
-        $evaluation = Evaluation::where('user_id', Auth::user()->id)->latest()->first();
+        $evaluation = Evaluation::where('user_id', Auth::user()->id)->latest()->first() ?? null;
         return $evaluation;
     }
 }

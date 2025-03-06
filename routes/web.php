@@ -5,9 +5,12 @@ use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ArtApiController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ChatAPIController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ConversationChatController;
 use App\Http\Controllers\VoiceProviderController;
 use App\Http\Controllers\AudioTestController;
+
+use App\Http\Controllers\QuestionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,14 +24,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::middleware('auth')->group(function () {
 
     //共通属性
+    # ダッシュボードのコントローラーを呼び出す
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard/print', [DashboardController::class, 'print'])->name('dashboard.print');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -71,6 +74,14 @@ Route::middleware('auth')->group(function () {
     Route::middleware('artist')->group(function () {
         Route::get('/art/register',[ArtController::class,'register'])->name('art.register');
         Route::post('/art/register',[ArtController::class,'create'])->name('art.create');
+    });
+
+    //ロールが管理者の場合（Adminのみアクセス可能）
+    Route::middleware('admin')->group(function () {
+        Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
+        Route::get('/questions/register', [QuestionController::class, 'register'])->name('question.register');
+        Route::post('/questions/store', [QuestionController::class, 'store'])->name('question.store');
+
     });
 });
 
