@@ -14,8 +14,8 @@ class EnsureRoleIsCompany
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // ユーザーが認証済みで、かつroleが'company'であるか確認
-        if (!$request->user() || $request->user()->role !== 'company') {
+        // ユーザーが認証済みで、かつroleが'company'または'admin'もしくはであるか確認
+        if (!$request->user() || !in_array($request->user()->role, ['company', 'admin'])) {
             abort(403, 'アクセス権限がありません。');
         }
         return $next($request);

@@ -16,8 +16,8 @@ class EnsureRoleIsArtist
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // ユーザーが認証済みで、かつroleが'artist'であるか確認
-        if (!$request->user() || $request->user()->role !== 'artist') {
+        // ユーザーが認証済みで、かつroleが'artist'または'admin'であるか確認
+        if (!$request->user() || !in_array($request->user()->role, ['artist', 'admin'])) {
             abort(403, 'アクセス権限がありません。');
         }
         return $next($request);
