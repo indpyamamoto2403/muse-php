@@ -62,10 +62,14 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/art',[ArtController::class,'index'])->name('art.index');
         Route::get('/chat', [ChatController::class, 'index'])->name('chat.index')->middleware('evaluation.exists');
+
+        Route::get('/chat/questions', [ChatController::class, 'questions'])->name('chat.questions');
+
         Route::get('/chat/complete', [ChatController::class, 'complete'])->name('chat.complete');
 
         // チャットAPI実装機能
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');//->middleware('evaluation.exists');
+        Route::post('api/chat/answer', [ChatAPIController::class, 'answer'])->name('chat.answer');
         Route::post('/api/chat/all', [ChatAPIController::class, 'sendAll'])->name('chat.sendAll');//->middleware('evaluation.exists');
 
         // 音声ファイル生成機能

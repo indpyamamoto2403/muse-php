@@ -42,4 +42,17 @@ class ChatAPIController extends Controller
         $score = $this->chatService->processScore($request->conversationHistory);
         return response()->json($score);
     }
+
+    /**
+     * アキネーター形式の質問を送信された際に受け取るコントローラー
+     */
+    public function answer(Request $request)
+    {
+        $payload = $request->all();
+        Log::debug('Received payload: ', $payload);
+        return response()->json([
+            'message' => 'Answers received successfully'
+        ]);
+
+    }
 }
