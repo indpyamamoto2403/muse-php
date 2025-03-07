@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ConversationChatController;
 use App\Http\Controllers\VoiceProviderController;
 use App\Http\Controllers\AudioTestController;
+use App\Http\Controllers\SettingsController;
 
 use App\Http\Controllers\QuestionController;
 use Illuminate\Foundation\Application;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/user-icon.set', [ProfileController::class, 'setUserIcon'])->name('user-icon.set');
 
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
     //会話チャット機能
     Route::get('/conversations', [ConversationChatController::class, 'index'])->name('conversations.index');

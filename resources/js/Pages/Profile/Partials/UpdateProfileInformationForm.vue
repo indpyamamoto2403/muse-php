@@ -28,7 +28,7 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-2xl font-medium text-gray-900">
                 プロフィール情報
             </h2>
 
@@ -96,7 +96,6 @@ const form = useForm({
                     type="text"
                     class="mt-1 block w-full"
                     v-model="form.occupation"
-                    required
                     autocomplete="occupation"
                 />
 
@@ -110,7 +109,6 @@ const form = useForm({
                     id="self_introduction"
                     class="mt-1 block w-full min-h-[200px] rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                     v-model="form.self_introduction"
-                    required
                     autocomplete="self_introduction"
                 ></textarea>
 

@@ -18,6 +18,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
       { name: 'AI', route: route('chat.index'), icon: faBacon },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
+      { name: 'Settings', route: route('settings.index'), icon: faCog },
     ],
     artist: [
       { name: 'Dashboard', route: route('dashboard'), icon: faHome },
@@ -25,6 +26,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'お気に入り', route: route('art.favorite'), icon: faHeart },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
+      { name: 'Settings', route: route('settings.index'), icon: faCog },
     ],
     admin:[
       { name: 'Dashboard', route: route('dashboard'), icon: faHome },
@@ -35,6 +37,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'AI', route: route('chat.index'), icon: faBacon },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
       { name: 'Questions', route: route('questions.index'), icon: faQuestion },
+      { name: 'Settings', route: route('settings.index'), icon: faCog },
     ]
   }
   
