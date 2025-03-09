@@ -49,7 +49,7 @@ class ChatAPIController extends Controller
     public function answer(Request $request)
     {
         $payload = $request->all();
-        Log::debug('Received payload: ', $payload);
+        $this->chatService->saveAnswers($payload);
         return response()->json([
             'message' => 'Answers received successfully'
         ]);

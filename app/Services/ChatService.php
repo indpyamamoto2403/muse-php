@@ -7,6 +7,7 @@ use App\Repositories\ChatRepository;
 use App\Exceptions\Score\ScoreStringDecodingFailedException;
 use App\Exceptions\Score\ScoreOutOfRangeException;
 use App\Exceptions\Score\ScoreFailedToSaveException;
+use App\Repositories\AnswerHistoryRepository;
 use App\Utils\VoiceProvider;
 
 use Illuminate\Support\Facades\Log;
@@ -20,14 +21,16 @@ class ChatService
     private $client;
     private $scoringAdapter;
     private $voiceProvider;
-    private $repository;
+    private $chatRepository;
+    private $answerHistoryRepository;
 
-    public function __construct(IOpenAIAPIClient $client, IScoringAdapter $scoringAdapter)
+    public function __construct(IOpenAIAPIClient $client, IScoringAdapter $scoringAdapter, AnswerHistoryRepository $answerHistoryRepository)
     {
         $this->client = $client;
         $this->scoringAdapter = $scoringAdapter;
-        $this->repository = new ChatRepository();
+        $this->chatRepository = new ChatRepository();
         $this->voiceProvider = new VoiceProvider(env('SPEECH_REGION'), env('SPEECH_KEY'));
+        $this->answerHistoryRepository = $answerHistoryRepository;
     }
 
     public function response(string $message, string $conversationHistory)
@@ -113,7 +116,7 @@ class ChatService
     public function saveScore(array $score)
     {
         try{
-            $this->repository->save($score);
+            $this->chatRepository->save($score);
         }catch(ScoreFailedToSaveException $e){
             throw new ScoreFailedToSaveException();
         }
@@ -124,6 +127,16 @@ class ChatService
      */
     public function getLatestScore()
     {
-        return $this->repository->getLatest();
+        return $this->chatRepository->getLatest();
+    }
+
+    /**
+     * 回答を保存する
+     */
+    public function saveAnswers(array $payload): void
+    {
+        foreach($payload as $answer){
+            $this->answerHistoryRepository->create($answer['question_id'], $answer['answer_id']);
+        }
     }
 }

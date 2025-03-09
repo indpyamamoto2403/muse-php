@@ -81,20 +81,25 @@ const allQuestionsAnswered = computed(() => {
 
 // フォーム送信
 function submitAnswers() {
-  const payload = Object.entries(form.answers).map(([questionId, answerId]) => ({
-    question_id: Number(questionId), 
-    answer_id: answerId,
-  }));
-
-  console.log(payload);
+  const payload = Object
+                  .entries(form.answers)
+                  .map(([questionId, answerId]) => 
+                  ({
+                  question_id: Number(questionId), 
+                  answer_id: answerId,
+                  }));
 
   axios.post(route('chat.answer'), payload)
     .then(() => {
-      alert('回答を受け付けました');
+
+      alert('Answers submitted successfully!');
+      refreshPage();
     })
-    .catch(() => {
-      alert('回答の送信に失敗しました');
+    .catch(error => {
+
+      alert('Failed to submit answers. Please try again.');
     });
+
 }
 
 function refreshPage() {
@@ -104,22 +109,25 @@ function refreshPage() {
 
 <template>
   <AuthenticatedLayout>
+
     <template #header>
       <div class="flex items-center justify-between w-full">
         <div>AIQuestions</div>
-
       </div>
     </template>
+
     <div class="flex items-center">
           <div class="w-32 bg-gray-200 rounded-full h-2.5 mr-2">
             <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-500 ease-out" :style="{ width: `${getProgress()}%` }"></div>
-          </div>
+            </div>
           <div class="text-sm text-white">{{ getProgress() }}%</div>
-        </div>
+          </div>
     <div class="w-full py-8 px-4">
-      <!-- カルーセルナビゲーション -->
+
+
+      <!-- カルーセルナビゲーション 丸みたいなやつ -->
       <div class="mb-6 flex justify-center">
-        <div class="flex space-x-2">
+        <div class="flex space-x-4">
           <button
             v-for="(_, index) in questionList"
             :key="index"
@@ -129,7 +137,8 @@ function refreshPage() {
               currentIndex === index ? 'bg-blue-500 scale-125' : 'bg-gray-300',
               form.answers[questionList[index].id] !== undefined ? 'ring-2 ring-blue-300' : ''
             ]"
-          ></button>
+          >
+        　</button>
         </div>
       </div>
 
@@ -212,7 +221,7 @@ function refreshPage() {
       </form>
 
       <div class="mt-8 text-center" v-if="!allQuestionsAnswered">
-        <p class="text-gray-600">すべての質問に回答してください ({{ Object.keys(form.answers).length }}/{{ questionList.length }})</p>
+        <p class="text-gray-50">すべての質問に回答してください ({{ Object.keys(form.answers).length }}/{{ questionList.length }})</p>
       </div>
       
       <div class="mt-8 text-center" v-else>
