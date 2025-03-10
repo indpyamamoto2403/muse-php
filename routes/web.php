@@ -70,7 +70,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/chat/history', [ChatController::class, 'history'])->name('chat.history');
 
         //画像を選ばせる機能
-        Route::get('question/image/choice', [ImageQuestionController::class, 'answer'])->name('questions.image.answer');
+        Route::get('question/image/answer', [ImageQuestionController::class, 'answer'])->name('questions.image.answer');
+        Route::post('question/image/answer', [ImageQuestionController::class, 'answerStore'])->name('questions.image.answerStore');
 
         // チャットAPI実装機能
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');//->middleware('evaluation.exists');

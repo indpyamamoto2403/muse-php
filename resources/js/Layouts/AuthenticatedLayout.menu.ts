@@ -1,4 +1,4 @@
-import { faHome, faUser, faCog, faComments, faPalette, faBacon, faHeart, faQuestion, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faCog, faComments, faPalette, faBacon, faHeart, faQuestion, faLock, faImage, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 type Role = 'company' | 'artist' | 'admin'
@@ -16,9 +16,9 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'ArtList', route: route('art.index'), icon: faPalette },
       { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'AI', route: route('chat.index'), icon: faBacon },
+      { name: 'AI', route: route('chat.index'), icon: faMicrophone },
       { name: 'AIQuestions', route: route('chat.questions'), icon: faQuestion },
-      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faQuestion },
+      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
       { name: 'Settings', route: route('settings.index'), icon: faCog },
     ],
@@ -36,12 +36,12 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'ArtList', route: route('art.index'), icon: faPalette },
       { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'AI', route: route('chat.index'), icon: faBacon },
+      { name: 'AI', route: route('chat.index'), icon: faMicrophone },
       { name: 'AIQuestions', route: route('chat.questions'), icon: faHome },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
       { name: 'Questions', route: route('questions.index'), icon: faQuestion },
-      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faQuestion },
-      { name: 'ImageQuestionsRegister', route: route('questions.image.register'), icon: faQuestion },
+      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
+      { name: 'ImageQuestionsRegister', route: route('questions.image.register'), icon: faLock },
       { name: 'Settings', route: route('settings.index'), icon: faCog },
     ]
   }

@@ -8,7 +8,9 @@ use App\Models\ImageQuestion;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-
+use App\Models\UserSelectedImage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class ImageQuestionController extends Controller
 {
     /**
@@ -89,5 +91,36 @@ class ImageQuestionController extends Controller
         return Inertia::render('Questions/ImageAnswer', [
             'images' => $images,
         ]);
+    }
+
+    public function answerStore(Request $request)
+    {
+
+    
+        try {
+            DB::beginTransaction();
+    
+            foreach ($request->selections as $selection) {
+                // 明示的に各フィールドを指定して作成
+
+                Log::debug($selection);
+                UserSelectedImage::create([
+                    'user_id' => Auth::id(),
+                    'image_question_id' => $selection['image_question_id'],
+                    'is_former_selected' => $selection['is_former_selected'],
+                ]);
+            }
+    
+            DB::commit();
+    
+            return redirect()->route('questions.image.answer')
+                ->with('success', 'すべての回答を保存しました');
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('回答保存エラー: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', '回答の保存中にエラーが発生しました');
+        }
     }
 }
