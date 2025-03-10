@@ -12,6 +12,7 @@ use App\Http\Controllers\AudioTestController;
 use App\Http\Controllers\SettingsController;
 
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ImageQuestionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,9 +64,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/art',[ArtController::class,'index'])->name('art.index');
         Route::get('/chat', [ChatController::class, 'index'])->name('chat.index')->middleware('evaluation.exists');
 
+        // チャット機能・
         Route::get('/chat/questions', [ChatController::class, 'questions'])->name('chat.questions');
-
         Route::get('/chat/complete', [ChatController::class, 'complete'])->name('chat.complete');
+        Route::get('/chat/history', [ChatController::class, 'history'])->name('chat.history');
+
+        //画像を選ばせる機能
+        Route::get('question/image/choice', [ImageQuestionController::class, 'answer'])->name('questions.image.answer');
 
         // チャットAPI実装機能
         Route::post('/api/chat', [ChatAPIController::class, 'send'])->name('chat.send');//->middleware('evaluation.exists');
@@ -87,7 +92,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
         Route::get('/questions/register', [QuestionController::class, 'register'])->name('question.register');
         Route::post('/questions/store', [QuestionController::class, 'store'])->name('question.store');
-
+        
+        Route::get('/questions/image/register', [ImageQuestionController::class, 'register'])->name('questions.image.register');
+        Route::post('/questions/image/upload', [ImageQuestionController::class, 'upload'])->name('questions.image.upload');
+        Route::delete('/questions/image/destroy/{id}', [ImageQuestionController::class, 'destroy'])->name('questions.image.destroy');
     });
 });
 

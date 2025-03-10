@@ -18,6 +18,7 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'Profile', route: route('profile.edit'), icon: faUser },
       { name: 'AI', route: route('chat.index'), icon: faBacon },
       { name: 'AIQuestions', route: route('chat.questions'), icon: faQuestion },
+      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faQuestion },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
       { name: 'Settings', route: route('settings.index'), icon: faCog },
     ],
@@ -39,6 +40,8 @@ export const getMenus = (role: Role): Menu[] => {
       { name: 'AIQuestions', route: route('chat.questions'), icon: faHome },
       { name: 'Conversations', route: route('conversations.index'), icon: faComments },
       { name: 'Questions', route: route('questions.index'), icon: faQuestion },
+      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faQuestion },
+      { name: 'ImageQuestionsRegister', route: route('questions.image.register'), icon: faQuestion },
       { name: 'Settings', route: route('settings.index'), icon: faCog },
     ]
   }
