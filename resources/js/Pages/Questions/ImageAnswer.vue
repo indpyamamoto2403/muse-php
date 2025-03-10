@@ -5,6 +5,7 @@ import ImageQuestionsTitle from '@/Components/Organisms/Questions/ImageQuestions
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import NoImagesForQuestion from '@/Components/Organisms/Questions/NoImagesForQuestion.vue';
 import ImageSelectionOption from '@/Components/Organisms/Questions/ImageSelectionOption.vue';
+import CompleteImageSelection from '@/Components/Organisms/Questions/CompleteImageSelection.vue';
 import { ImageQuestionRecord } from '@/Types/ImageQuestionRecord';
 
 
@@ -36,13 +37,6 @@ const updateCurrentRecord = () => {
 
 const selectImage = (isFormerSelected:boolean) => {
   if (!currentRecord.value) return;
-  // コンソールに選択結果を出力
-
-
-  console.log({
-    image_question_id :currentRecord.value.id,
-    is_former_selected : isFormerSelected
-  });
 
   form.selections.push({
     image_question_id: currentRecord.value.id,
@@ -71,15 +65,6 @@ const submitSelections = () => {
   });
 };
 
-const handleImageError = (event: Event) => {
-  const target = event.target as HTMLImageElement;
-  target.src = '/images/placeholder.png';
-};
-
-console.log(currentRecord.value);
-
-// 削除: progressPercentage関数
-
 onMounted(() => {
   updateCurrentRecord();
 });
@@ -92,12 +77,10 @@ onMounted(() => {
     </template>
     <div class="image-preference-container max-w-4xl mx-auto p-4 mt-12">
       <ImageQuestionsTitle :currentRecord="currentRecord" />
-      <div v-if="isCompleted" class="completed-message text-center py-10 bg-slate-200 rounded-2xl">
-        <div class="text-green-500 text-4xl mb-4">✓</div>
-        <h2 class="text-xl font-bold mb-2">選択完了!</h2>
-        <p class="text-gray-600">すべての画像の選択が完了しました。ご協力ありがとうございます。</p>
-      </div>
 
+      <div v-if="isCompleted">
+        <CompleteImageSelection />
+      </div>
       <div v-else-if="currentRecord" class="selection-container">
         <div class="image-selection-area grid grid-cols-1 md:grid-cols-2 gap-6">
             <ImageSelectionOption 

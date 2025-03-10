@@ -11,19 +11,20 @@ use Illuminate\Support\Str;
 use App\Models\UserSelectedImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\ImageQuestionService;
 class ImageQuestionController extends Controller
 {
+    private $imageQuestionService;
+    public function __construct(ImageQuestionService $imageQuestionService)
+    {
+        $this->imageQuestionService = $imageQuestionService;
+    }
     /**
      * 画像一覧画面の表示
      */
     public function register()
     {
-        // 登録されているすべての画像情報を取得
-        $images = ImageQuestion::all() ?? [];
-
-        // Inertia を使って Vue コンポーネント 'Questions/ImageRegister' にデータを渡す
         return Inertia::render('Questions/ImageRegister', [
-            'images' => $images,
         ]);
     }
 
@@ -32,21 +33,12 @@ class ImageQuestionController extends Controller
      */
     public function upload(Request $request)
     {
-        Log::debug($request->all());
-        // リクエストの検証（説明は必須、画像はそれぞれ画像ファイルで最大2MB）
-        $validated = $request->validate([
-            'description' => 'required|string',
-            'image1' => 'required|image|max:2048',
-            'image2' => 'required|image|max:2048',
-        ]);
 
-        // 一意なUUIDを生成（例: "a1b2c3d4-..."）
         $uuid = (string) Str::uuid();
 
         // 保存先のディレクトリ（例: "questions/{uuid}"）
         $folder = "questions/{$uuid}";
 
-        // 画像ファイルを storage/app/public/questions/{uuid} に保存（ファイル名は 1.png, 2.png）
         $image1Path = $request->file('image1')->storeAs($folder, '1.png', 'public');
         $image2Path = $request->file('image2')->storeAs($folder, '2.png', 'public');
 
@@ -85,42 +77,22 @@ class ImageQuestionController extends Controller
 
     public function answer()
     {
-        // 登録されているすべての画像情報を取得
-        $images = ImageQuestion::all() ?? [];
-        // Inertia を使って Vue コンポーネント 'Questions/ImageRegister' にデータを渡す
+        $images = $this->imageQuestionService->getRandomChoice(5);
         return Inertia::render('Questions/ImageAnswer', [
             'images' => $images,
         ]);
     }
 
+    /**
+     * 回答を貯蓄する
+     */
     public function answerStore(Request $request)
     {
-
-    
-        try {
-            DB::beginTransaction();
-    
-            foreach ($request->selections as $selection) {
-                // 明示的に各フィールドを指定して作成
-
-                Log::debug($selection);
-                UserSelectedImage::create([
-                    'user_id' => Auth::id(),
-                    'image_question_id' => $selection['image_question_id'],
-                    'is_former_selected' => $selection['is_former_selected'],
-                ]);
-            }
-    
-            DB::commit();
-    
-            return redirect()->route('questions.image.answer')
-                ->with('success', 'すべての回答を保存しました');
-    
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('回答保存エラー: ' . $e->getMessage());
-            return redirect()->back()
-                ->with('error', '回答の保存中にエラーが発生しました');
+        $isSucceed = $this->imageQuestionService->storeAnswer($request);
+        if ($isSucceed) {
+            return redirect()->route('questions.image.answer')->with('success', '回答が保存されました。');
+        } else {
+            return redirect()->route('questions.image.answer')->with('error', '回答の保存に失敗しました。');
         }
     }
 }
