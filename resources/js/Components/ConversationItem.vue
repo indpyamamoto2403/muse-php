@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 <template>
   <li>
-    <Link :href="route('conversations.show', conversation.recepter_id)" class="block p-6 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+    <Link :href="route('conversations.show', conversation.recepter_id)" class="block p-6 bg-slate-100 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <!-- 相手のみの参加者情報を表示 -->

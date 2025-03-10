@@ -1,5 +1,5 @@
 <template>
-  <div class="conversations-index p-6 bg-gray-100 min-h-screen">
+  <div class="conversations-index p-6 bg-gray-100 min-h-screen rounded-lg">
     <h1 class="text-3xl font-bold text-gray-800 mb-8">会話履歴</h1>
     <ul class="space-y-6">
       <ConversationItem
