@@ -28,6 +28,8 @@
         "@fortawesome/free-solid-svg-icons": "^6.7.2",
         "@fortawesome/vue-fontawesome": "^3.0.8",
         "chart.js": "^4.4.8",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^3.0.0",
         "laravel-echo": "^2.0.2",
         "pusher-js": "^8.4.0",
         "vue-cropperjs": "^5.0.0"

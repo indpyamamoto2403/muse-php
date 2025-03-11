@@ -34,7 +34,6 @@ const renderChart = () => {
     chartInstance.value = new Chart(chartCanvas.value, createRadarChartConfig(props.datasets));
     // レンダリング後にデータURLをemit
     const dataUrl = chartCanvas.value.toDataURL();
-    console.log("renderChart dataURL:", dataUrl); // データURLを確認
     setTimeout(() => {
       emit('chart-rendered', dataUrl);
     }, 2000);
@@ -47,7 +46,6 @@ const updateChart = (newDatasets: Dataset[]) => {
         chartInstance.value.data = createRadarChartConfig(newDatasets).data;
         chartInstance.value.update();
         const dataUrl = chartCanvas.value.toDataURL();
-        console.log("updateChart dataURL:", dataUrl);  // データURLを確認
         emit('chart-rendered', dataUrl);
 
     }
@@ -59,7 +57,6 @@ const updateChart = (newDatasets: Dataset[]) => {
   <div class="chart-container">
     <canvas ref="chartCanvas" class="block"></canvas>
   </div>
-  <img id="mgimg" alt="Chart Image"/>
 </template>
 
 <style scoped>

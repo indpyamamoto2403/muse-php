@@ -36,7 +36,7 @@ class ImageQuestionController extends Controller
 
         $uuid = (string) Str::uuid();
 
-        // 保存先のディレクトリ（例: "questions/{uuid}"）
+        // directory（例: "questions/{uuid}"）
         $folder = "questions/{$uuid}";
 
         $image1Path = $request->file('image1')->storeAs($folder, '1.png', 'public');
@@ -50,7 +50,7 @@ class ImageQuestionController extends Controller
             'image_path2'      => $image2Path,
         ]);
 
-        // 画像一覧画面にリダイレクトし、成功メッセージをフラッシュ
+        // redirect to the image list page and flash the success message
         return redirect()->route('questions.image.register')->with('success', 'Image uploaded successfully.');
     }
 
@@ -59,21 +59,20 @@ class ImageQuestionController extends Controller
      */
     public function destroy($id)
     {
-        // 指定された ID の画像情報を取得、存在しない場合は 404 エラー
+        // get the information about image , which is going to be deleted
         $imageQuestion = ImageQuestion::findOrFail($id);
 
-        // ストレージ上に画像ファイルが存在すれば削除
+        // delete if the image is in public disk
         if (Storage::disk('public')->exists($imageQuestion->path)) {
             Storage::disk('public')->delete($imageQuestion->path);
         }
 
-        // データベースからもレコードを削除
+        // delete the image from the database
         $imageQuestion->delete();
 
-        // 画像一覧画面にリダイレクトし、削除完了メッセージをフラッシュ
+        //redirect to the image list page and flash the success message
         return redirect()->route('questions.image.index')->with('success', 'Image deleted successfully.');
     }
-
 
     public function answer()
     {
@@ -84,7 +83,7 @@ class ImageQuestionController extends Controller
     }
 
     /**
-     * 回答を貯蓄する
+     * store the answers into Database
      */
     public function answerStore(Request $request)
     {
