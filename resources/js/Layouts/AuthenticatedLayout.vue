@@ -6,7 +6,6 @@ import { Link } from '@inertiajs/vue3';
 
 // Font Awesome のコンポーネントとアイコンをインポート
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faHome, faUser, faCog, faSignOutAlt, faPalette, faImages, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 const page: any = usePage();
 type Role = 'company' | 'artist';

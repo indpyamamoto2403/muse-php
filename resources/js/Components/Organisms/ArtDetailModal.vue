@@ -29,6 +29,9 @@ const submit = async (commentText: string) => {
       artId: props.art.id
     });
 
+    //add posted comment to the top of the comments list
+    
+
     // Assuming the response contains the new comment
     if (response.data.comment) {
       comments.value.unshift(response.data.comment);
