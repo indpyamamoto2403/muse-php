@@ -112,8 +112,9 @@
         <div class="header">
 
             <h1 class="title">スコア評価レポート</h1>
-            <p class="subtitle">{{ $userName ?? 'ユーザー' }}様の芸術作品評価</p>
+            <p class="subtitle">{{ $userName ?? 'ユーザー' }}様の芸術作品★評価</p>
             <p class="date">作成日: {{ date('Y年m月d日') }}</p>
+            <p>タイムスタンプ: {{ $timestamp }}</p>
         </div>
 
         <div class="section">

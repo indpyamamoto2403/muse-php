@@ -29,8 +29,10 @@ class EmailController extends Controller
      * ダッシュボードをPDF化して送信する新しいメソッド
      */
     public function sendEmail(Request $request)
-    {
-        $pdf = EmailService::generateDashboardPDF('pdf.dashboard', ['user' => Auth::user()]);
+    {   
+        //タイムスタンプをpdf情報に含めたい
+        $timestamp = now()->format('Y-m-d H:i:s');
+        $pdf = EmailService::generateDashboardPDF('pdf.dashboard', ['user' => Auth::user(), 'timestamp' => $timestamp]);
         $result = EmailService::handleEmailSending($pdf);
         return redirect()->back()->with('message', $result ? 'Email sent successfully' : 'Email sending failed');
     }

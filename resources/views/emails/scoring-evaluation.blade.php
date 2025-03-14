@@ -130,26 +130,13 @@
         <div class="header">
             <div class="header-content">
                 <h1>スコア評価レポート</h1>
-                <p>2025年03月期 四半期分析</p>
             </div>
         </div>
         <div class="content">
             <p>お世話になっております。</p>
-            
             <div class="highlight">
                 <p>添付ファイルにて、<strong>最新のスコア評価レポート</strong>をお送りいたします。<br>
                 ご多忙のところ恐れ入りますが、ご確認いただけますようお願い申し上げます。</p>
-            </div>
-            
-            <p>今回のレポートでは前四半期と比較して<strong>20%の改善</strong>が見られました。詳細については添付のPDFをご覧ください。</p>
-            
-            <div class="pdf-section">
-                <div class="pdf-icon">📊</div>
-                <h3>スコア評価レポート.pdf</h3>
-                <p>ファイルサイズ: 2.4MB</p>
-                <a href="{{ $pdfFileName }}" class="button" download>
-                    <span class="icon">📥</span>レポートを開く
-                </a>
             </div>
             
             <p>ご不明点やご質問がございましたら、お気軽にお問い合わせください。</p>
