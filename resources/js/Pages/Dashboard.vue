@@ -6,6 +6,7 @@ import { createRadarChartConfig } from '@/Pages/Chat/Chart.config';
 import { onMounted, ref } from 'vue';
 import ScoreChart from '@/Components/Organisms/Score/ScoreChart.vue';
 import { Score } from '@/Types/Evaluation';
+import EmailPdfComponent from '@/Components/Organisms/Dashboard/EmailPdfComponent.vue';
 
 const props = defineProps<{ score: Score }>();
 
@@ -69,19 +70,20 @@ const goToPrintPage = () => {
                                 <ScoreChart :datasets="sampleScoreData" />
                             </div>
                         </div>
-                        <div class="flex justify-between w-[580px] h-[40px]">
-                            <button @click="goToPrintPage" class=
-                            "
-                            mt-4 
-                            px-4 
-                            py-2 
-                            h-full
-                            bg-blue-500
-                            text-white 
-                            rounded 
-                            hover:cursor-pointer
-                            hover:bg-blue-600"
-                             >印刷</button>
+                        <div class="flex mt-4 space-x-6">
+                            <button @click="goToPrintPage" class="
+                                px-4 
+                                py-2 
+                                h-[40px]
+                                bg-blue-500
+                                text-white 
+                                rounded 
+                                hover:cursor-pointer
+                                hover:bg-blue-600"
+                            >印刷</button>
+                            
+                            <!-- メール送信コンポーネント -->
+                            <EmailPdfComponent :score="props.score" />
                         </div>
                     </div>
                 </div>

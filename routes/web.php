@@ -10,9 +10,10 @@ use App\Http\Controllers\ConversationChatController;
 use App\Http\Controllers\VoiceProviderController;
 use App\Http\Controllers\AudioTestController;
 use App\Http\Controllers\SettingsController;
-
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ImageQuestionController;
+use App\Http\Controllers\EmailSentController;
+use App\Http\Controllers\EmailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,7 +26,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
 
 Route::middleware('auth')->group(function () {
 
@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
 
     // お気に入り作品一覧表示
     Route::get('/art/favorite', [ArtController::class, 'favorite'])->name('art.favorite');
+
+    // メール送信機能
+    Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
 
     //ロールが企業の場合
     Route::middleware('company')->group(function () {
@@ -99,6 +102,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/questions/image/destroy/{id}', [ImageQuestionController::class, 'destroy'])->name('questions.image.destroy');
     });
 });
+
 
 
 require __DIR__.'/auth.php';
