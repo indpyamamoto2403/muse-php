@@ -6,6 +6,7 @@ use App\Repositories\ArtRepository;
 use App\Repositories\EvaluationRepository;
 use App\Models\Art;
 use App\Models\Like;
+use App\Models\Save;
 use Illuminate\Support\Facades\DB;
 
 class ArtService
@@ -19,6 +20,8 @@ class ArtService
     {
         $this->artRepository = new ArtRepository();
     }
+
+
 
     /**
      * 全Art取得.
@@ -66,7 +69,6 @@ class ArtService
 
     /**
      * ユーザーがいいねした作品を取得
-     * 
      * @param int $userId
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -79,6 +81,24 @@ class ArtService
         // いいねした作品の詳細情報を取得
         return Art::with(['user', 'evaluation', 'likes', 'saves'])
             ->whereIn('id', $favoriteArtIds)
+            ->get();
+    }
+
+
+    /**
+     * ユーザーが保存した作品を取得
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSavedArts($userId)
+    {
+        // ユーザーが保存した作品IDを取得
+        $savedArtIds = Save::where('user_id', $userId)
+            ->pluck('art_id');
+            
+        // 保存した作品の詳細情報を取得
+        return Art::with(['user', 'evaluation', 'likes', 'saves'])
+            ->whereIn('id', $savedArtIds)
             ->get();
     }
 }

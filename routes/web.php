@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
 
     // お気に入り作品一覧表示
     Route::get('/art/favorite', [ArtController::class, 'favorite'])->name('art.favorite');
-
+    Route::get('/art/saved', [ArtController::class, 'saved'])->name('art.saved');
     // メール送信機能
     Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
 

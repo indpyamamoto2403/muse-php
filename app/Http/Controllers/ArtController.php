@@ -27,6 +27,8 @@ class ArtController extends Controller
         $this->artSimilarityService = $artSimilarityService;
     }
 
+
+
     /**
      * @return \Inertia\Response
      */
@@ -106,7 +108,6 @@ class ArtController extends Controller
 
     /**
      * ユーザーがいいねした作品を表示
-     * 
      * @return \Inertia\Response
      */
     public function favorite()
@@ -115,6 +116,19 @@ class ArtController extends Controller
         
         return Inertia::render('Art/Favorite', [
             'arts' => $favoriteArts
+        ]);
+    }
+
+    /**
+     * ユーザーが保存した作品を表示
+     * @return \Inertia\Response
+     */
+    public function saved()
+    {
+        $savedArts = $this->artService->getSavedArts(Auth::id());
+        
+        return Inertia::render('Art/Saved', [
+            'arts' => $savedArts
         ]);
     }
 }
