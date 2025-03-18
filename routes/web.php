@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     
     // コメント機能のルート
     Route::post('api/comment', [ArtApiController::class, 'comment'])->name('comment');
+    Route::put('api/comment/{id}', [ArtApiController::class, 'updateComment'])->name('comment.update');
+    Route::delete('api/comment/{id}', [ArtApiController::class, 'deleteComment'])->name('comment.delete');
 
     // お気に入り作品一覧表示
     Route::get('/art/favorite', [ArtController::class, 'favorite'])->name('art.favorite');

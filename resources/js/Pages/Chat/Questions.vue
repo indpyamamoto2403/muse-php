@@ -143,7 +143,7 @@ function refreshPage() {
       </div>
 
       <form @submit.prevent="submitAnswers" class="max-w-2xl mx-auto">
-        <div class="relative overflow-hidden" style="min-height: 320px;">
+        <div class="relative overflow-hidden min-h-[240px]">
           <div
             class="transition-all duration-300 ease-in-out absolute w-full"
             :class="{

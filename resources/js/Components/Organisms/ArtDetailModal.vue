@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Art } from '@/Types/Art';
 import BoardSendForm from '@/Components/Molecules/BoardSendForm.vue';
-
+import GalleryComment from '@/Components/Molecules/GalleryComment.vue';
+import { usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ interface Props {
     art: Art
 }
 
+const userId = usePage().props.auth.user.id;
 const props = defineProps<Props>();
 const comments = ref(props.art?.comments || []);
 const isLoading = ref(false);
@@ -29,15 +31,11 @@ const submit = async (commentText: string) => {
       artId: props.art.id
     });
 
-    //add posted comment to the top of the comments list
-    
+    if (response.status === 200) {
 
-    // Assuming the response contains the new comment
-    if (response.data.comment) {
-      comments.value.unshift(response.data.comment);
+      comments.value.unshift(response.data.message);
     }
 
-    // Clear the form and reset loading state
     errorMessage.value = '';
   } catch (error) {
     errorMessage.value = 'コメントの投稿に失敗しました。もう一度お試しください。';
@@ -47,17 +45,11 @@ const submit = async (commentText: string) => {
   }
 };
 
-// Function to format date
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+const deleteComment = (commentId: number) => {
+  comments.value = comments.value.filter((comment) => comment.id !== commentId);
+  console.log('Comment deleted about', commentId);
 };
+
 </script>
 
 <template>
@@ -72,6 +64,12 @@ const formatDate = (dateString: string) => {
       
       <div class="detail-section">
         <h2 class="font-bold text-3xl my-2 underline">{{ art?.title }}</h2>
+          <p v-if="art?.user.id === userId" class="text-gray-500 text-sm bg-yellow-100 p-2 rounded-md">
+            ※この作品の投稿者はユーザー様です。
+          </p>
+          <p v-else class="text-gray-500 text-sm bg-blue-200 p-2 rounded-md">
+            作成者: {{ art?.user?.name }}
+          </p>
         <p class="font-semibold text-lg">{{ art?.description }}</p>
         <img 
           :src="art?.image_url" 
@@ -109,25 +107,16 @@ const formatDate = (dateString: string) => {
               tag="ul" 
               class="flex flex-col gap-4"
             >
+              <!-- コメント欄 -->
               <li 
                 v-for="comment in comments" 
                 :key="comment.id" 
-                class="bg-slate-50 p-4 rounded-lg shadow-sm"
               >
-                <div class="flex items-center mb-2">
-                  <img 
-                    :src="comment.user.icon_url" 
-                    alt="User Avatar" 
-                    class="w-8 h-8 rounded-full mr-3 object-cover"
-                  />
-                  <div>
-                    <p class="font-semibold">{{ comment.user.name }}</p>
-                    <p class="text-gray-500 text-xs">
-                      {{ formatDate(comment.created_at) }}
-                    </p>
-                  </div>
-                </div>
-                <p class="text-gray-800">{{ comment.comment }}</p>
+                <gallery-comment 
+                :comment="comment" 
+                :userId="userId"
+                @delete-comment="deleteComment" 
+                />
               </li>
             </transition-group>
           </div>

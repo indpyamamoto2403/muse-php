@@ -9,44 +9,41 @@ interface Menu {
   icon: IconDefinition
 }
 
+// Common menu items shared across roles
+const commonMenus: Menu[] = [
+  { name: 'Dashboard', route: route('dashboard'), icon: faHome },
+  { name: 'Profile', route: route('profile.edit'), icon: faUser },
+  { name: 'Conversations', route: route('conversations.index'), icon: faComments },
+  { name: 'Settings', route: route('settings.index'), icon: faCog },
+]
+
+// Specific menu items for each role
+const roleSpecificMenus: Record<Role, Menu[]> = {
+  company: [
+    { name: 'ArtList', route: route('art.index'), icon: faPalette },
+    { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
+    { name: 'Saved', route: route('art.saved'), icon: faDatabase },
+    { name: 'AI', route: route('chat.index'), icon: faMicrophone },
+    { name: 'AIQuestions', route: route('chat.questions'), icon: faQuestion },
+    { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
+  ],
+  artist: [
+    { name: 'Art', route: route('art.register'), icon: faPalette },
+    { name: 'お気に入り', route: route('art.favorite'), icon: faHeart },
+  ],
+  admin: [
+    { name: 'Art', route: route('art.register'), icon: faPalette },
+    { name: 'ArtList', route: route('art.index'), icon: faPalette },
+    { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
+    { name: 'Saved', route: route('art.saved'), icon: faDatabase },
+    { name: 'AI', route: route('chat.index'), icon: faMicrophone },
+    { name: 'AIQuestions', route: route('chat.questions'), icon: faHome },
+    { name: 'Questions', route: route('questions.index'), icon: faQuestion },
+    { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
+    { name: 'ImageQuestionsRegister', route: route('questions.image.register'), icon: faLock },
+  ]
+}
+
 export const getMenus = (role: Role): Menu[] => {
-  const menus: Record<Role, Menu[]> = {
-    company: [
-      { name: 'Dashboard', route: route('dashboard'), icon: faHome },
-      { name: 'ArtList', route: route('art.index'), icon: faPalette },
-      { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
-      { name: 'Saved', route: route('art.saved'), icon: faDatabase },
-      { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'AI', route: route('chat.index'), icon: faMicrophone },
-      { name: 'AIQuestions', route: route('chat.questions'), icon: faQuestion },
-      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
-      { name: 'Conversations', route: route('conversations.index'), icon: faComments },
-      { name: 'Settings', route: route('settings.index'), icon: faCog },
-    ],
-    artist: [
-      { name: 'Dashboard', route: route('dashboard'), icon: faHome },
-      { name: 'Art', route: route('art.register'), icon: faPalette },
-      { name: 'お気に入り', route: route('art.favorite'), icon: faHeart },
-      { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'Conversations', route: route('conversations.index'), icon: faComments },
-      { name: 'Settings', route: route('settings.index'), icon: faCog },
-    ],
-    admin:[
-      { name: 'Dashboard', route: route('dashboard'), icon: faHome },
-      { name: 'Art', route: route('art.register'), icon: faPalette },
-      { name: 'ArtList', route: route('art.index'), icon: faPalette },
-      { name: 'Favorite', route: route('art.favorite'), icon: faHeart },
-      { name: 'Saved', route: route('art.saved'), icon: faDatabase },
-      { name: 'Profile', route: route('profile.edit'), icon: faUser },
-      { name: 'AI', route: route('chat.index'), icon: faMicrophone },
-      { name: 'AIQuestions', route: route('chat.questions'), icon: faHome },
-      { name: 'Conversations', route: route('conversations.index'), icon: faComments },
-      { name: 'Questions', route: route('questions.index'), icon: faQuestion },
-      { name: 'ImageQuestions', route: route('questions.image.answer'), icon: faImage },
-      { name: 'ImageQuestionsRegister', route: route('questions.image.register'), icon: faLock },
-      { name: 'Settings', route: route('settings.index'), icon: faCog },
-    ]
-  }
-  
-  return menus[role]
+  return [...commonMenus, ...roleSpecificMenus[role]]
 }

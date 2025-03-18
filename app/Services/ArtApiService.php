@@ -15,7 +15,9 @@ class ArtApiService
     private $saveRepository;
     private $commentRepository;
 
-    public function __construct(LikeRepository $likeRepository, SaveRepository $saveRepository, CommentRepository $commentRepository)
+    public function __construct(LikeRepository $likeRepository, 
+                                SaveRepository $saveRepository, 
+                                CommentRepository $commentRepository)
     {
         $this->likeRepository = $likeRepository;
         $this->saveRepository = $saveRepository;
@@ -46,5 +48,15 @@ class ArtApiService
     public function comment($artId, $comment)
     {
         $this->commentRepository->comment($artId, $comment);
+    }
+
+    public function updateComment($commentId, $comment)
+    {
+        $this->commentRepository->updateComment($commentId, $comment);
+    }
+    
+    public function deleteComment($commentId)
+    {
+        $this->commentRepository->deleteComment($commentId);
     }
 }

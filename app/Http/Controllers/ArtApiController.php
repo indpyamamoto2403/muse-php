@@ -34,7 +34,7 @@ class ArtApiController extends Controller
         if($request->isSaved){
             $this->artApiService->save($request->artId, $this->userId);
         }else{
-            $this->artApiService->unsave($request->artId, $this->userId); // Update variable from $artId to $request->artId
+            $this->artApiService->unsave($request->artId, $this->userId);
         }
 
         return response()->json(['message' => $request->is_save ? '保存しました' : '保存を取り消しました']);
@@ -42,8 +42,19 @@ class ArtApiController extends Controller
 
     public function comment(Request $request)
     {
-        Log::debug($request->all());
         $this->artApiService->comment($request->artId, $request->comment);
         return response()->json(['message' => 'コメントしました']);
+    }
+
+    public function updateComment(Request $request, $id)
+    {
+        $this->artApiService->updateComment($id, $request->comment);
+        return response()->json(['message' => 'コメントを更新しました']);
+    }
+
+    public function deleteComment(Request $request, $id)
+    {
+        $this->artApiService->deleteComment($id);
+        return response()->json(['message' => 'コメントを削除しました']);
     }
 }

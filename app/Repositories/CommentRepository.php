@@ -14,4 +14,17 @@ class CommentRepository
         $insComment->comment = $comment;
         $insComment->save();
     }
+
+    public function updateComment($commentId, $comment)
+    {
+        $updComment = Comment::find($commentId);
+        $updComment->comment = $comment;
+        $updComment->save();
+    }
+
+    public function deleteComment($commentId)
+    {
+        $delComment = Comment::find($commentId);
+        $delComment->delete();
+    }
 }
