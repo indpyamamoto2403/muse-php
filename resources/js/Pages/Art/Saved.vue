@@ -18,7 +18,7 @@ const filteredArts = ref(props.arts);
   <AuthenticatedLayout>
     <template #header>
       <h2 class="text-xl leading-tight">
-        Favorited
+        Saved
       </h2>
     </template>
 
