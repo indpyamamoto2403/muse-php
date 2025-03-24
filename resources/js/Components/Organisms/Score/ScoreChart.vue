@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, defineEmits, defineProps } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Chart from 'chart.js/auto';
 import { createRadarChartConfig } from '@/Pages/Chat/Chart.config';
 

@@ -1,6 +1,4 @@
-<!-- File: ImageSelectionOption.vue -->
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps<{
   imageUrl: string,
